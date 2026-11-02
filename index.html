@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>市场跟踪工作台 · 2026-10-30</title>
+<title>市场跟踪工作台 · 2026-11-02</title>
 <style>
 :root{
   --bg:#faf6f5; --card:#fff; --ink:#241a18; --ink2:#6d5d59; --ink3:#9c8b86;
@@ -158,12 +158,12 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
         <h1>市场跟踪工作台</h1>
         <p>股票 · 宏观 · 固收 · 简报 · 动态</p>
       </div>
-      <div class="src">Alpha派 · 指数与行业快照 2026-10-30 收盘 · 四板块已接</div>
+      <div class="src">Alpha派 · 指数与行业快照 2026-11-02 收盘 · 四板块已接</div>
     </div>
     <div class="datebar">
-      <b>2026-10-30</b><span>星期五</span>
-      <span class="sep">|</span><span>A股最新交易日</span>
-      <span class="sep">|</span><span>数据截至 15:00 收盘</span>
+      <b>2026-11-02</b><span>星期一</span>
+      <span class="sep">|</span><span>A股盘中</span>
+      <span class="sep">|</span><span>数据截至 11:40（半日）</span>
     </div>
   </div>
 </div>
@@ -186,7 +186,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
 
   <!-- ============ A股 ============ -->
   <div data-page="stocks-a">
-    <div class="datebar2">2026-10-30 星期五 · A股最新交易日 · 15:00 收盘</div>
+    <div class="datebar2">2026-11-02 星期一 · A股盘中 · 数据截至 11:40（11:30 半日）</div>
     <section>
       <div class="shead"><h2>1 · 市场指数</h2><span class="note">11:40 盘中 · 15:20 收盘 · 两段都跑</span></div>
       <div class="glab">宽基</div>
@@ -227,23 +227,25 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
       <div class="shead"><h2>4 · 行业</h2><span class="note">11:40 盘中 · 15:20 收盘</span></div>
       <div class="grid g2">
         <div class="card">
-          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">申万一级 · 涨幅前5</h2></div>
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">一级行业 · 涨幅前5</h2>
+            <span class="note">东财一级行业口径</span></div>
           <div class="rank" id="swTop"></div>
         </div>
         <div class="card">
-          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">申万一级 · 跌幅前5</h2></div>
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">一级行业 · 跌幅前5</h2>
+            <span class="note">东财一级行业口径</span></div>
           <div class="rank" id="swBottom"></div>
         </div>
       </div>
       <div class="grid g2" style="margin-top:10px">
         <div class="card">
           <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">概念指数 · 涨幅前5</h2>
-            <span class="note">同花顺概念</span></div>
+            <span class="note">东财概念板块口径</span></div>
           <div class="rank" id="conceptTop"></div>
         </div>
         <div class="card">
           <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">概念指数 · 跌幅前3</h2>
-            <span class="note">同花顺概念</span></div>
+            <span class="note">东财概念板块口径</span></div>
           <div class="rank" id="conceptBottom"></div>
         </div>
       </div>
@@ -365,9 +367,9 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
             <tr><td>两市成交额</td><td>上证指数 + 深证成指成交额加总（东财日线 f57）</td><td>沪深两市，不含北交所；60 交易日历史已缓存</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
             <tr><td>涨跌家数</td><td>AlphaPai · 全A个股日行情汇总</td><td>样本含北交所，平盘=收盘等于昨收</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
             <tr><td>涨停 / 跌停</td><td>东财涨停池 / 跌停池</td><td>涨停不含ST单列；跌停含ST</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
-            <tr><td>连板</td><td>AlphaPai · 连板指标</td><td>仅取计算状态有效记录，天数逆序</td><td>11:40 · 15:20</td></tr>
-            <tr><td>申万一级</td><td>AlphaPai · 申万行业指数日行情</td><td>31 个一级行业</td><td>11:40 · 15:20</td></tr>
-            <tr><td>概念指数</td><td>AlphaPai · 同花顺概念指数（.TI）</td><td>395 个概念，按涨跌幅排序</td><td>11:40 · 15:20</td></tr>
+            <tr><td>连板</td><td>东财涨停池 lbc（盘中）· AlphaPai 连板指标（收盘）</td><td>仅取计算状态有效记录，天数逆序</td><td>11:40 · 15:20</td></tr>
+            <tr><td>一级行业</td><td>东财行业板块（盘中）· AlphaPai 申万行业指数（收盘）</td><td>31 个一级行业；盘中东财一级口径</td><td>11:40 · 15:20</td></tr>
+            <tr><td>概念指数</td><td>东财概念板块（盘中）· AlphaPai 同花顺概念指数（收盘）</td><td>按涨跌幅排序；盘中剔除「昨日」类统计板块</td><td>11:40 · 15:20</td></tr>
             <tr><td>主力资金</td><td>东方财富资金流</td><td>主力=超大单+大单，含子行业</td><td>11:40 · 15:20 抓，16:35 复核终值</td></tr>
             <tr><td>ETF 净流入</td><td>AlphaPai · 基金份额变动</td><td>份额法，股票型ETF，T+1</td><td>16:35（上一交易日值）</td></tr>
             <tr><td>基差</td><td>AlphaPai · 期货主力 + 现货指数</td><td>主力按标志逐日拼接，不复权</td><td>15:20 · 16:35 复核</td></tr>
@@ -633,7 +635,9 @@ function renderAll(){
     <div class="idxname">两市成交额</div>
     <div class="kv"><span class="pill ${t.diff<0?'g':''}">${t.tag}</span></div>
     <div class="idxret ${cls(t.diff)}" style="font-size:26px">${t.v.toFixed(2)}<span style="font-size:12px;font-weight:500"> 亿元</span></div>
-    <div class="idxclose">较前一交易日 ${t.diff>0?'+':''}${t.diff.toFixed(2)} 亿元（${t.pct>0?'+':''}${t.pct.toFixed(1)}%）</div>
+    <div class="idxclose">${t.kind==='盘中'
+      ? `半日值 · 线性外推 ${Math.round(t.est)} 亿，较前一交易日全天 ${t.diff>0?'+':''}${t.diff.toFixed(2)} 亿（${t.pct>0?'+':''}${t.pct.toFixed(1)}%）`
+      : `较前一交易日 ${t.diff>0?'+':''}${t.diff.toFixed(2)} 亿元（${t.pct>0?'+':''}${t.pct.toFixed(1)}%）`}</div>
     <div class="dual">
       <div><div class="dl">沪市</div><div class="dv">${t.sh.toFixed(2)}</div></div>
       <div><div class="dl">深市</div><div class="dv">${t.sz.toFixed(2)}</div></div>
