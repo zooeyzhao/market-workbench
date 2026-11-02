@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>市场跟踪工作台 · 2026-10-30</title>
+<style>
+:root{
+  --bg:#faf6f5; --card:#fff; --ink:#241a18; --ink2:#6d5d59; --ink3:#9c8b86;
+  --line:#ecdfdc; --divider:#f3ebe9; --ph:#e3c8c3; --grid:#f1e9e7; --zero:#dcc0bb;
+  --brand:#9e2a23; --brand2:#c0574a; --brand-soft:#f9edeb;
+  --up:#d43a2b; --down:#128f5c; --flat:#8a97a8; --warn:#b54708;
+  --radius:14px; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.04);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.5;
+}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 72px}
+/* ---------- 顶部 ---------- */
+.top{background:linear-gradient(135deg,#9e2a23,#c0574a);color:#fff;padding:18px 0 0}
+.top .wrap{padding-bottom:0}
+.brandrow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.5px}
+.brand p{margin:4px 0 0;font-size:12px;color:rgba(255,255,255,.78)}
+.src{margin-top:2px;font-size:11.5px;color:rgba(255,255,255,.9);background:rgba(255,255,255,.14);
+     border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 12px;white-space:nowrap;
+     max-width:100%;overflow-wrap:anywhere}
+.datebar{margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  font-size:12.5px;color:rgba(255,255,255,.92);padding-bottom:12px}
+.datebar b{font-size:15px;font-weight:700;color:#fff;letter-spacing:.4px}
+.datebar .sep{opacity:.45}
+/* ---------- 导航 ---------- */
+.nav1{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.nav1 .wrap{display:flex;gap:4px;padding:0 20px;overflow-x:auto}
+.nav1 a{padding:12px 16px;font-size:14px;color:var(--ink2);text-decoration:none;white-space:nowrap;
+  border-bottom:2px solid transparent}
+.nav1 a.on{color:var(--brand);font-weight:700;border-bottom-color:var(--brand)}
+.nav2{display:flex;gap:8px;margin:16px 0 6px;flex-wrap:wrap}
+.nav2 a{padding:7px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);
+  color:var(--ink2);text-decoration:none;font-size:13px}
+.nav2 a.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+/* ---------- 区块 ---------- */
+section{margin-top:18px}
+.shead{display:flex;align-items:baseline;gap:10px;margin:0 0 10px;flex-wrap:wrap}
+.shead h2{margin:0;font-size:15px;font-weight:700;letter-spacing:.3px}
+.shead .note{font-size:11.5px;color:var(--ink3)}
+.glab{font-size:11.5px;color:var(--ink3);margin:0 0 6px 2px;letter-spacing:.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:16px}
+.grid{display:grid;gap:12px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+/* 指数卡 */
+.idxcard{display:flex;flex-direction:column;gap:6px}
+.idxname{font-size:12px;color:var(--ink2)}
+.idxret{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+.idxclose{font-size:11.5px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--flat)}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;
+  background:var(--brand-soft);color:var(--brand)}
+.pill.g{background:#e9f5ef;color:var(--down)}
+.kv{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.kv .big{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+.kv .sub{font-size:11.5px;color:var(--ink3)}
+/* 三格 */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.trio div{background:var(--bg);border-radius:10px;padding:12px 6px}
+.trio .n{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.trio .l{font-size:11.5px;color:var(--ink3);margin-top:2px}
+/* 排行卡 */
+.rank{display:flex;flex-direction:column;gap:8px}
+.rankrow{display:grid;grid-template-columns:18px 88px 1fr 62px;align-items:center;gap:8px;font-size:13px}
+.rankrow .no{color:var(--ink3);font-size:11.5px;text-align:right}
+.rankrow .nm{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rankrow .bar{height:8px;border-radius:4px;background:var(--divider);position:relative;overflow:hidden}
+.rankrow .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.rankrow .val{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:12.5px}
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 8px;text-align:left;border-bottom:1px solid var(--divider)}
+th{font-size:11.5px;color:var(--ink3);font-weight:600;background:var(--bg)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+.tag{display:inline-block;padding:1px 7px;border-radius:6px;font-size:11px;
+  background:var(--brand-soft);color:var(--brand)}
+/* 图 */
+.chart{position:relative;height:132px;margin-top:8px}
+.chart svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.chart .ylab,.chart .xlab{position:absolute;font-size:10.5px;color:var(--ink3);
+  font-variant-numeric:tabular-nums;pointer-events:none;white-space:nowrap}
+.chart .ylab{left:0;width:36px;text-align:right}
+.chart .tip{position:absolute;pointer-events:none;background:#fff;border:1px solid var(--line);
+  border-radius:10px;box-shadow:0 4px 14px rgba(16,24,40,.12);padding:7px 10px;font-size:11.5px;
+  color:var(--ink);display:none;z-index:5;min-width:96px}
+.chart .tip .t{color:var(--ink3);font-size:10.5px;margin-bottom:3px}
+.chart .tip .r{display:flex;align-items:center;gap:6px;justify-content:space-between}
+.chart .tip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.legend{display:flex;gap:14px;font-size:11.5px;color:var(--ink2);margin-top:6px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:2px;border-radius:2px;display:inline-block}
+/* 风格图 */
+.stylefig{margin:0}
+.stylefig img{width:100%;display:block;border-radius:10px;border:1px solid var(--divider)}
+.stylefig figcaption{font-size:11.5px;color:var(--ink3);margin-top:6px}
+/* 说明表 */
+.meta{font-size:12px;color:var(--ink2)}
+.meta table{font-size:12px}
+/* 占位 */
+.placeholder{padding:48px 20px;text-align:center;color:var(--ink3);font-size:13px;
+  background:var(--card);border:1px dashed var(--ph);border-radius:var(--radius)}
+.placeholder b{display:block;color:var(--ink2);font-size:14px;margin-bottom:6px}
+.datebar2{background:linear-gradient(135deg,#9e2a23,#c0574a);color:#fff;border-radius:10px;
+  padding:8px 14px;font-size:12.5px;margin:14px 0 4px;font-weight:600;letter-spacing:.3px}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 2px}
+.dual>div{background:var(--bg);border-radius:10px;padding:10px 12px}
+.dual .dl{font-size:11.5px;color:var(--ink3)}
+.dual .dv{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+.dual .dp{font-size:11.5px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.notebox{margin-top:14px;padding:10px 14px;border-left:3px solid var(--ph);background:var(--brand-soft);
+  border-radius:0 10px 10px 0;font-size:11.5px;color:var(--ink2);line-height:1.6}
+.ylab.zero{color:#8a6a64;font-weight:700}
+/* 返回顶部 */
+#toTop{position:fixed;right:max(16px,calc((100vw - 1280px)/2 + 20px));bottom:calc(24px + env(safe-area-inset-bottom));width:44px;height:44px;
+  border-radius:50%;background:var(--brand);color:#fff;border:none;box-shadow:0 6px 18px rgba(158,42,35,.32);
+  display:none;align-items:center;justify-content:center;cursor:pointer;z-index:40}
+#toTop.show{display:flex}
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink3)}
+/* 响应式 */
+@media (max-width:1020px){
+  .g4,.g5{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .wrap{padding:0 14px 64px}
+  .g2,.g3,.g4,.g5{grid-template-columns:1fr}
+  .trio{grid-template-columns:repeat(3,1fr)}
+  .rankrow{grid-template-columns:16px 76px 1fr 54px}
+  .nav1 a{padding:11px 12px;font-size:13px}
+  .idxret{font-size:18px}
+  .brandrow{flex-direction:column;gap:8px;align-items:flex-start}
+  .src{white-space:normal;line-height:1.45;font-size:11px}
+  #toTop{right:12px;bottom:calc(14px + env(safe-area-inset-bottom));width:40px;height:40px;
+    box-shadow:0 4px 14px rgba(158,42,35,.28);opacity:.95}
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap">
+    <div class="brandrow">
+      <div class="brand">
+        <h1>市场跟踪工作台</h1>
+        <p>股票 · 宏观 · 固收 · 简报 · 动态</p>
+      </div>
+      <div class="src">Alpha派 · 指数与行业快照 2026-10-30 收盘 · 四板块已接</div>
+    </div>
+    <div class="datebar">
+      <b>2026-10-30</b><span>星期五</span>
+      <span class="sep">|</span><span>A股最新交易日</span>
+      <span class="sep">|</span><span>数据截至 15:00 收盘</span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav1"><div class="wrap">
+  <a href="#stocks-a">股票</a>
+  <a href="#macro">宏观</a>
+  <a href="#bond">固收</a>
+  <a href="#brief">简报</a>
+  <a href="#feed">动态</a>
+</div></nav>
+
+<div class="wrap">
+  <div class="nav2" id="nav2Wrap" data-page="stocks-a">
+    <a href="#stocks-a">A股</a>
+    <a href="#stocks-hk">港股</a>
+    <a href="#stocks-global">海外</a>
+    <a href="#stocks-commodity">商品</a>
+  </div>
+
+  <!-- ============ A股 ============ -->
+  <div data-page="stocks-a">
+
+    <section>
+      <div class="shead"><h2>1 · 市场指数</h2><span class="note">11:40 盘中 · 15:20 收盘 · 两段都跑</span></div>
+      <div class="glab">宽基</div>
+      <div class="grid g4" id="wideIdx"></div>
+      <div class="glab" style="margin-top:12px">风格</div>
+      <div class="grid g4" id="styleIdx"></div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>2 · 成交量</h2><span class="note">沪深两市成交额合计 · 11:40 盘中 · 15:20 收盘 · 不含北交所</span></div>
+      <div class="grid g2">
+        <div class="card" id="turnCard"></div>
+        <div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">近 60 个交易日成交额</h2>
+            <span class="note">亿元 · 均线与当日同口径</span></div>
+          <div class="chart" id="chTurn"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>沪深合计</span>
+            <span><i style="background:#8a97a8"></i>5 日均</span>
+            <span><i style="background:#5B9BD5"></i>20 日均</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>3 · 市场情绪</h2><span class="note">11:40 盘中 · 15:20 收盘</span></div>
+      <div class="grid g2">
+        <div class="card" id="trio"></div>
+        <div class="card" id="limitBox"></div>
+      </div>
+      <div class="card" style="margin-top:10px">
+        <div class="shead" style="margin:0 0 6px"><h2 style="font-size:13px">连板股 · 天数逆序前5</h2></div>
+        <table><thead><tr><th>股票</th><th>所属行业</th><th class="num">连板天数</th></tr></thead>
+        <tbody id="lianbanTb"></tbody></table>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>4 · 行业</h2><span class="note">11:40 盘中 · 15:20 收盘</span></div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">申万一级 · 涨幅前5</h2></div>
+          <div class="rank" id="swTop"></div>
+        </div>
+        <div class="card">
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">申万一级 · 跌幅前5</h2></div>
+          <div class="rank" id="swBottom"></div>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:10px">
+        <div class="card">
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">概念指数 · 涨幅前5</h2>
+            <span class="note">同花顺概念</span></div>
+          <div class="rank" id="conceptTop"></div>
+        </div>
+        <div class="card">
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">概念指数 · 跌幅前3</h2>
+            <span class="note">同花顺概念</span></div>
+          <div class="rank" id="conceptBottom"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>5 · 资金</h2><span class="note">11:40 盘中 · 15:20 收盘 · 16:35 复核 · 主力资金为东财口径</span></div>
+      <div class="grid g3">
+        <div class="card" id="mfHead"></div>
+        <div class="card">
+          <div class="shead" style="margin:0 0 8px"><h2 style="font-size:13px">净流入前5行业</h2>
+            <span class="note">亿元</span></div>
+          <div class="rank" id="mfIn"></div>
+        </div>
+        <div class="card">
+          <div class="shead" style="margin:0 0 8px"><h2 style="font-size:13px">净流出前5行业</h2>
+            <span class="note">亿元</span></div>
+          <div class="rank" id="mfOut"></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:10px">
+        <div class="shead" style="margin:0 0 6px"><h2 style="font-size:13px">股票型ETF净流入</h2></div>
+        <div id="etfBox"></div>
+        <div class="note" style="font-size:11.5px;color:var(--ink3);margin-top:6px">
+          ETF份额数据 T+1 披露，此处为上一交易日值，非当日</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>6 · 股指期货基差</h2>
+        <span class="note">近3年 · 红色为基差（期货−现货，点），橙色为对应指数 · 各序列独立归一化</span></div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IH · 上证50</h2>
+            <span class="note">最新基差 -17.51 点</span></div>
+          <div class="chart" id="basis0"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
+            <span><i style="background:#e0954b"></i>指数</span></div>
+        </div><div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IF · 沪深300</h2>
+            <span class="note">最新基差 -25.5 点</span></div>
+          <div class="chart" id="basis1"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
+            <span><i style="background:#e0954b"></i>指数</span></div>
+        </div><div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IC · 中证500</h2>
+            <span class="note">最新基差 -24.39 点</span></div>
+          <div class="chart" id="basis2"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
+            <span><i style="background:#e0954b"></i>指数</span></div>
+        </div><div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IM · 中证1000</h2>
+            <span class="note">最新基差 -31.23 点</span></div>
+          <div class="chart" id="basis3"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
+            <span><i style="background:#e0954b"></i>指数</span></div>
+        </div>
+      </div>
+      <div class="note" style="font-size:11.5px;color:var(--ink3);margin-top:8px">
+        主力合约按标志逐日拼接、不做复权，因此换月日基差会跳变（区间内四品种各 37 次），单日大幅变动不等于贴水收敛。
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>7 · 市场风格</h2>
+        <span class="note">风格指数动量观测 · 3年滚动 · 对照中证全指 · 数据截至 2026-10-29 · 16:35 更新</span></div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">金融 · CI005917</h2>
+            <span class="note">动量 6.25% · 偏离 0.05σ · 2026-10-29</span></div>
+          <div class="chart" id="sty0"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
+            <span><i style="background:#8a97a8"></i>均值</span>
+            <span><i style="background:#5B9BD5"></i>±1σ</span>
+            <span><i style="background:#FFC000"></i>±2σ</span></div>
+        </div><div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">周期 · CI005918</h2>
+            <span class="note">动量 2.86% · 偏离 -0.68σ · 2026-10-29</span></div>
+          <div class="chart" id="sty1"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
+            <span><i style="background:#8a97a8"></i>均值</span>
+            <span><i style="background:#5B9BD5"></i>±1σ</span>
+            <span><i style="background:#FFC000"></i>±2σ</span></div>
+        </div><div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">消费 · CI005919</h2>
+            <span class="note">动量 -6.30% · 偏离 -0.63σ · 2026-10-29</span></div>
+          <div class="chart" id="sty2"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
+            <span><i style="background:#8a97a8"></i>均值</span>
+            <span><i style="background:#5B9BD5"></i>±1σ</span>
+            <span><i style="background:#FFC000"></i>±2σ</span></div>
+        </div><div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">成长 · CI005920</h2>
+            <span class="note">动量 5.21% · 偏离 0.79σ · 2026-10-29</span></div>
+          <div class="chart" id="sty3"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
+            <span><i style="background:#8a97a8"></i>均值</span>
+            <span><i style="background:#5B9BD5"></i>±1σ</span>
+            <span><i style="background:#FFC000"></i>±2σ</span></div>
+        </div><div class="card">
+          <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">稳定 · CI005921</h2>
+            <span class="note">动量 0.49% · 偏离 -0.75σ · 2026-10-29</span></div>
+          <div class="chart" id="sty4"></div>
+          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
+            <span><i style="background:#8a97a8"></i>均值</span>
+            <span><i style="background:#5B9BD5"></i>±1σ</span>
+            <span><i style="background:#FFC000"></i>±2σ</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shead"><h2>数据源与时点</h2><span class="note">每个数字的来源、口径与抓取时点</span></div>
+      <div class="card meta">
+        <table>
+          <thead><tr><th>数据</th><th>来源</th><th>口径</th><th>时点</th></tr></thead>
+          <tbody>
+            <tr><td>8 大指数</td><td>AlphaPai 数据库 · 指数日行情</td><td>收盘价 / 涨跌幅</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
+            <tr><td>两市成交额</td><td>上证指数 + 深证成指成交额加总（东财日线 f57）</td><td>沪深两市，不含北交所；60 交易日历史已缓存</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
+            <tr><td>涨跌家数</td><td>AlphaPai · 全A个股日行情汇总</td><td>样本含北交所，平盘=收盘等于昨收</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
+            <tr><td>涨停 / 跌停</td><td>东财涨停池 / 跌停池</td><td>涨停不含ST单列；跌停含ST</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
+            <tr><td>连板</td><td>AlphaPai · 连板指标</td><td>仅取计算状态有效记录，天数逆序</td><td>11:40 · 15:20</td></tr>
+            <tr><td>申万一级</td><td>AlphaPai · 申万行业指数日行情</td><td>31 个一级行业</td><td>11:40 · 15:20</td></tr>
+            <tr><td>概念指数</td><td>AlphaPai · 同花顺概念指数（.TI）</td><td>395 个概念，按涨跌幅排序</td><td>11:40 · 15:20</td></tr>
+            <tr><td>主力资金</td><td>东方财富资金流</td><td>主力=超大单+大单，含子行业</td><td>11:40 · 15:20 抓，16:35 复核终值</td></tr>
+            <tr><td>ETF 净流入</td><td>AlphaPai · 基金份额变动</td><td>份额法，股票型ETF，T+1</td><td>16:35（上一交易日值）</td></tr>
+            <tr><td>基差</td><td>AlphaPai · 期货主力 + 现货指数</td><td>主力按标志逐日拼接，不复权</td><td>15:20 · 16:35 复核</td></tr>
+            <tr><td>风格动量</td><td>风格指数动量观测 Skill 输出序列</td><td>年化3年相对动量 vs 中证全指；均值±1σ/2σ 按同口径3年滚动窗自算</td><td>16:35</td></tr>
+            <tr><td>港股指数 / 恒生行业</td><td>东财行情 124.HSI / 124.HSTECH / 恒生12行业指数</td><td>收盘价与涨跌幅，港股交易日</td><td>16:35（港股 16:00 收盘后）</td></tr>
+            <tr><td>南向资金</td><td>财媒资讯（港股通沪深合计）</td><td>资讯口径，非交易所净买入</td><td>16:35 首抓（常未出），06:10 兼底</td></tr>
+            <tr><td>日韩市场</td><td>东财 100.N225 / 100.KS11、177.005930、SKHY</td><td>当日收盘</td><td>16:35（韩台 15:30 收盘后）</td></tr>
+            <tr><td>美股</td><td>东财 100.DJIA/SPX/NDX、251.SOX/HXC、105.*</td><td>上一交易日收盘</td><td>次日 06:10（美东 16:00 收盘后）</td></tr>
+            <tr><td>VIX</td><td>全球数据库 ^VIX</td><td>周频，对照标普500</td><td>次日 06:10</td></tr>
+            <tr><td>商品</td><td>东财 112.B00Y / 102.CL00Y / 101.GC00Y / 122.XAU / 101.HG00Y</td><td>当月连续，美元计价</td><td>次日 06:10（外盘 02:30 收盘后）</td></tr>
+            <tr><td>LME 铜</td><td>AlphaPai 期货日行情（主力标志拼接）</td><td>美元/吨，历史自 2025-05-16</td><td>次日 06:10</td></tr>
+          </tbody>
+        </table>
+        <p style="margin:12px 0 0;color:var(--ink2);font-size:11.5px;line-height:1.8">
+          <b>四个定时任务覆盖上表全部时点</b>（均为工作日自动跑、不推送、只重写本页）：<br>
+          · <b>11:40 盘中</b>　A股指数 / 成交量 / 情绪 / 行业 / 概念 / 主力资金盘中值<br>
+          · <b>15:20 收盘</b>　A股全部终值 + 基差（成交额、涨跌家数、涨跌停以此时为准）<br>
+          · <b>16:35 收盘后</b>　港股、恒生行业、日韩、主力资金复核、基差复核、风格动量、ETF、南向首抓<br>
+          · <b>次日 06:10</b>　美股、VIX、商品、LME，并兼底南向资金
+        </p>
+        <p style="margin:8px 0 0;color:var(--ink3);font-size:11.5px">
+          同一指标出现两个数时：盘中值只用于看半日量能和情绪，收盘价、成交额、涨跌家数一律以 15:20 那一版为准；
+          主力资金与你此前看到的财媒“大单净流出”也不同，差异来自“主力/大单”与“沪深两市/沪市”两个口径，本页统一用主力口径、沪深分列。</p>
+        </table>
+        <p style="margin:10px 0 0;color:var(--ink3);font-size:11.5px">
+          主力资金与你此前看到的财媒“大单净流出”数值不同，差异来自“主力/大单”与“沪深两市/沪市”两个口径；本页统一用主力口径，且沪市、深市分列，便于核对。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ 占位页 ============ -->
+  <div data-page="stocks-hk" style="display:none">
+    <div class="datebar2">2026-10-30 星期五 · 港股最新交易日 · 16:00 收盘</div>
+    <section>
+      <div class="shead"><h2>1 · 市场情况</h2><span class="note">港股 16:00 收盘 · 16:35 更新</span></div>
+      <div class="grid g2" id="hkIdx"></div>
+      <div class="card" id="hkAmt" style="margin-top:10px"></div>
+    </section>
+    <section>
+      <div class="shead"><h2>2 · 行业</h2><span class="note">恒生 12 个一级行业指数 · 当日涨跌幅</span></div>
+      <div class="grid g2">
+        <div class="card"><div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">涨幅前5</h2></div><div class="rank" id="hkUp"></div></div>
+        <div class="card"><div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">跌幅前5</h2></div><div class="rank" id="hkDown"></div></div>
+      </div>
+    </section>
+    <section>
+      <div class="shead"><h2>3 · 资金</h2><span class="note">南向资金 · 资讯口径</span></div>
+      <div class="card" id="hkSouth"></div>
+    </section>
+    <div class="notebox">港股概念板块：库内无对应指数体系，本页不提供。若需要，另行接入同花顺港股概念（覆盖需先确认）。</div>
+  </div>
+
+  <div data-page="stocks-global" style="display:none">
+    <div class="datebar2">2026-10-30 星期五 · 美股最新交易日 · 04:00 收盘（北京时间）</div>
+    <section>
+      <div class="shead"><h2>1 · 美国市场</h2><span class="note">次日 06:10 更新</span></div>
+      <div class="glab">宽基</div>
+      <div class="grid g5" id="usIdx"></div>
+      <div class="glab" style="margin-top:12px">重点个股</div>
+      <div class="grid g5" id="usStock"></div>
+    </section>
+    <section>
+      <div class="shead"><h2>2 · VIX 恐慌指数</h2><span class="note">近3年周频 · 对照标普500</span></div>
+      <div class="card" id="vixCard"></div>
+    </section>
+    <section>
+      <div class="shead"><h2>3 · 日韩市场</h2><span class="note">当日收盘 · 16:35 更新</span></div>
+      <div class="grid g2" id="asiaIdx"></div>
+      <div class="grid g2" id="asiaStock" style="margin-top:10px"></div>
+    </section>
+  </div>
+
+  <div data-page="stocks-commodity" style="display:none">
+    <div class="datebar2">2026-10-30 星期五 · 商品最新交易日（收盘）</div>
+    <section>
+      <div class="shead"><h2>1 · 原油</h2><span class="note">近3年周频 · 交易所连续合约</span></div>
+      <div class="grid g2">
+        <div class="card"><div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">布伦特原油</h2><span class="note">美元/桶 · 当月连续</span></div>
+          <div class="kv"><span class="big" id="brentRet"></span><span class="sub" id="brentPx"></span></div>
+          <div class="chart" id="chBrent"></div></div>
+        <div class="card"><div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">WTI原油</h2><span class="note">美元/桶 · 当月连续</span></div>
+          <div class="kv"><span class="big" id="wtiRet"></span><span class="sub" id="wtiPx"></span></div>
+          <div class="chart" id="chWti"></div></div>
+      </div>
+    </section>
+    <section>
+      <div class="shead"><h2>2 · 有色</h2><span class="note">金：COMEX 与伦敦金双列 · 铜：LME 与 COMEX 双列</span></div>
+      <div class="grid g2">
+        <div class="card"><div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">黄金</h2><span class="note">美元/盎司</span></div>
+          <div class="dual" id="goldDual"></div>
+          <div class="chart" id="chGc"></div></div>
+        <div class="card"><div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">铜</h2><span class="note">LME 起自 2025-05</span></div>
+          <div class="dual" id="cuDual"></div>
+          <div class="chart" id="chLme"></div></div>
+      </div>
+    </section>
+    <div class="notebox">LME 铜库内仅有 2025-05-16 起的日线（换月 35 次，价格有跳变）；COMEX 铜为周频近3年。铜卡片图位展示 LME，COMEX 仅给数值。</div>
+  </div>
+  <div data-page="macro" style="display:none">
+    <div class="placeholder"><b>宏观 · 待搭建</b></div>
+  </div>
+  <div data-page="bond" style="display:none">
+    <div class="placeholder"><b>固收 · 待搭建</b></div>
+  </div>
+  <div data-page="brief" style="display:none">
+    <div class="placeholder"><b>简报 · 待搭建</b>可接日内四段简报归档</div>
+  </div>
+  <div data-page="feed" style="display:none">
+    <div class="placeholder"><b>动态 · 待搭建</b></div>
+  </div>
+
+  <footer>
+    市场跟踪工作台 v0.3 · 四个板块已接 · 快照模式：数据由脚本抓取后写入本页，不联网请求<br>
+    数据来源：AlphaPai 数据库、东方财富行情与资金流、风格指数动量观测 Skill。仅供研究参考，不构成投资建议。
+  </footer>
+</div>
+
+<button id="toTop" onclick="toTop()" aria-label="返回顶部">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+       stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<div id="loadTip" style="margin:16px 20px;padding:14px 16px;border-radius:12px;background:#f9edeb;border:1px solid #e3c8c3;color:#6d5d59;font-size:13px;line-height:1.7"><b>正在读取 data.json …</b><div class="m" style="margin-top:6px;font-size:12px;color:#9c8b86"></div></div>
+<script>
+let D = null;
+(function(){
+  const el = document.getElementById('DATA');
+  if (el && el.textContent.trim()) D = JSON.parse(el.textContent);
+})();
+function boot(data){ D = data; renderAll(); }
+
+function cls(v){ if(v>0) return 'up'; if(v<0) return 'down'; return 'flat'; }
+function pct(v,d=2){ const s=(v>0?'+':'')+v.toFixed(d)+'%'; return s; }
+
+/* ---------- 通用走势图（内联 SVG + HTML 标签覆盖） ---------- */
+function drawChart(box, cfg){
+  const W=300, H=120, PL=40, PR=260, PT=10, PB=100;
+  let GMIN = Infinity, GMAX = -Infinity;
+  cfg.series.forEach(s=>{ s.data.forEach(p=>{ if(p.v!==null && p.v!==undefined){ GMIN=Math.min(GMIN,p.v); GMAX=Math.max(GMAX,p.v); } }); });
+  const series = cfg.series.map(s=>{
+    const vals = s.data.map(p=>p.v).filter(v=>v!==null && v!==undefined);
+    const mn = cfg.shared ? GMIN : Math.min(...vals);
+    const mx = cfg.shared ? GMAX : Math.max(...vals);
+    const span = (mx-mn) || 1;
+    return Object.assign({}, s, {mn, mx, pts: s.data.map((p,i)=>({
+      x: PL + (PR-PL) * (s.data.length===1?0.5:i/(s.data.length-1)),
+      y: (p.v===null||p.v===undefined) ? null : PB - (PB-PT) * ((p.v-mn)/span),
+      raw: p
+    }))});
+  });
+  const base = series[0];
+  const dims = base.pts.length;
+
+  // 网格线
+  let grid='';
+  [0.25,0.5,0.75].forEach(f=>{
+    const y = PT + (PB-PT)*f;
+    grid += `<line x1="${PL}" y1="${y}" x2="${PR}" y2="${y}" stroke="var(--grid)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
+  });
+  // 零轴（序列正负均有时必画）
+  let zeroY = null;
+  if(base.mn < 0 && base.mx > 0){
+    zeroY = PB - (PB-PT) * ((0-base.mn)/(base.mx-base.mn));
+    grid += `<line x1="${PL}" y1="${zeroY}" x2="${PR}" y2="${zeroY}" stroke="#8a6a64" stroke-width="1.1" vector-effect="non-scaling-stroke"/>`;
+  }
+  // 折线
+  let paths='';
+  series.forEach(s=>{
+    let d='', pen=false;
+    s.pts.forEach(p=>{
+      if(p.y===null){ pen=false; return; }
+      d += (pen?'L':'M') + p.x.toFixed(2) + ',' + p.y.toFixed(2) + ' ';
+      pen = true;
+    });
+    if(!d) return;
+    const w = s.width || 1.6;
+    const dash = s.dash ? ` stroke-dasharray="${s.dash}"` : '';
+    paths += `<path d="${d.trim()}" fill="none" stroke="${s.color}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"${dash} vector-effect="non-scaling-stroke"/>`;
+  });
+  // 悬停
+  const hover = `<line id="hv" x1="0" y1="${PT}" x2="0" y2="${PB}" stroke="#b9a8a3" stroke-width="1" stroke-dasharray="3 3" style="display:none" vector-effect="non-scaling-stroke"/>`;
+  const hit = `<rect x="${PL}" y="${PT}" width="${PR-PL}" height="${PB-PT}" fill="transparent" style="cursor:crosshair"/>`;
+
+  box.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${grid}${paths}${hover}${hit}</svg>
+    <div class="ylab" style="top:${PT/H*100}%;transform:translateY(-50%)">${cfg.fmt(base.mx)}</div>
+    ${(zeroY===null || zeroY < PT+11 || zeroY > PB-11)?'':`<div class="ylab zero" style="top:${zeroY/H*100}%;transform:translateY(-50%)">0</div>`}
+    <div class="ylab" style="top:${(PT+PB)/2/H*100}%;transform:translateY(-50%)">${cfg.fmt((base.mx+base.mn)/2)}</div>
+    <div class="ylab" style="top:${PB/H*100}%;transform:translateY(-50%)">${cfg.fmt(base.mn)}</div>
+    ${[0,0.25,0.5,0.75,1].map(f=>{
+      const i = Math.round(f*(dims-1));
+      const p = base.pts[i];
+      const left = (p.x/W*100);
+      const v = cfg.xfmt ? cfg.xfmt(p.raw.d) : (p.raw.d||'').slice(2,7).replace('-','.');
+      return `<div class="xlab" style="left:${left}%;top:${(PB+4)/H*100}%;transform:translateX(-50%)">${v}</div>`;
+    }).join('')}
+    <div class="tip"></div>`;
+
+  const svg = box.querySelector('svg');
+  const hv = box.querySelector('#hv');
+  const tip = box.querySelector('.tip');
+  const hitR = box.querySelector('rect');
+  function move(ev){
+    const r = svg.getBoundingClientRect();
+    const px = (ev.clientX - r.left) / r.width * W;
+    let idx = Math.round((px - PL) / (PR - PL) * (dims - 1));
+    idx = Math.max(0, Math.min(dims-1, idx));
+    const x = base.pts[idx].x;
+    hv.setAttribute('x1', x); hv.setAttribute('x2', x);
+    hv.style.display='';
+    const d0 = base.pts[idx].raw;
+    tip.innerHTML = `<div class="t">${d0.d}</div>` + series.map(s=>{
+      const v = s.data[idx] ? s.data[idx].v : null;
+      return `<div class="r"><span><i class="dot" style="background:${s.color}"></i>${s.name}</span><b>${v===null?'—':s.vfmt(v)}</b></div>`;
+    }).join('');
+    tip.style.display='block';
+    const leftPx = x / W * r.width;
+    let tx = leftPx + 12;
+    if(tx + 130 > r.width) tx = leftPx - 130;
+    tip.style.left = Math.max(0, tx) + 'px';
+    tip.style.top = '4px';
+  }
+  hitR.addEventListener('mousemove', move);
+  hitR.addEventListener('mouseleave', ()=>{ hv.style.display='none'; tip.style.display='none'; });
+  hitR.addEventListener('touchstart', e=>{ if(e.touches[0]) move(e.touches[0]); }, {passive:true});
+  hitR.addEventListener('touchmove', e=>{ if(e.touches[0]) move(e.touches[0]); }, {passive:true});
+}
+
+/* ---------- 渲染 ---------- */
+function idxCard(d){
+  return `<div class="card idxcard">
+    <div class="idxname">${d.name}</div>
+    <div class="idxret ${cls(d.pct)}">${pct(d.pct)}</div>
+    <div class="idxclose">${d.close.toFixed(2)}</div>
+  </div>`;
+}
+
+function rankRows(list, maxAbs, unit){
+  return list.map((x,i)=>{
+    const w = Math.min(100, Math.abs(x.pct||x.v)/maxAbs*100);
+    const c = (x.pct||x.v)>=0 ? 'var(--up)' : 'var(--down)';
+    return `<div class="rankrow">
+      <div class="no">${i+1}</div>
+      <div class="nm">${x.name}</div>
+      <div class="bar"><i style="width:${w}%;background:${c}"></i></div>
+      <div class="val ${c==='var(--up)'?'up':'down'}">${(x.pct!==undefined? pct(x.pct): x.v.toFixed(2))}${unit||''}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAll(){
+  // 指数
+  document.getElementById('wideIdx').innerHTML = D.wide.map(idxCard).join('');
+  document.getElementById('styleIdx').innerHTML = D.styleIdx.map(idxCard).join('');
+  const t = D.turnover;
+  const tn = D.turn || {series:[], ma5:[], ma20:[]};
+  const lastMA = arr => { for(let i=arr.length-1;i>=0;i--){ if(arr[i].v!==null) return arr[i].v; } return null; };
+  const m5 = lastMA(tn.ma5), m20 = lastMA(tn.ma20);
+  const vs = (a,b)=> b ? (a-b)/b*100 : 0;
+  const sg = v => (v>0?'+':'') + v.toFixed(1) + '%';
+  document.getElementById('turnCard').innerHTML = `
+    <div class="idxname">两市成交额</div>
+    <div class="kv"><span class="pill ${t.diff<0?'g':''}">${t.tag}</span></div>
+    <div class="idxret ${cls(t.diff)}" style="font-size:26px">${t.v.toFixed(2)}<span style="font-size:12px;font-weight:500"> 亿元</span></div>
+    <div class="idxclose">较前一交易日 ${t.diff>0?'+':''}${t.diff.toFixed(2)} 亿元（${t.pct>0?'+':''}${t.pct.toFixed(1)}%）</div>
+    <div class="dual">
+      <div><div class="dl">沪市</div><div class="dv">${t.sh.toFixed(2)}</div></div>
+      <div><div class="dl">深市</div><div class="dv">${t.sz.toFixed(2)}</div></div>
+    </div>
+    <div style="margin-top:10px;font-size:11.5px;color:var(--ink3);line-height:1.95">
+      ${m5===null?'5 日均 —':`5 日均 <b style="color:var(--ink2)">${m5.toFixed(0)} 亿</b>，今日 ${sg(vs(t.v,m5))}`}<br>
+      ${m20===null?'20 日均 —':`20 日均 <b style="color:var(--ink2)">${m20.toFixed(0)} 亿</b>，今日 ${sg(vs(t.v,m20))}`}
+    </div>`;
+
+  // 情绪
+  const b = D.breadth, l = D.limit;
+  document.getElementById('trio').innerHTML = `
+    <div class="trio">
+      <div><div class="n up">${b.up}</div><div class="l">上涨</div></div>
+      <div><div class="n down">${b.down}</div><div class="l">下跌</div></div>
+      <div><div class="n flat">${b.flat}</div><div class="l">平盘</div></div>
+    </div>
+    <div style="font-size:11.5px;color:var(--ink3);margin-top:8px">样本 ${b.total} 只，含北交所；平盘=收盘等于昨收</div>`;
+  document.getElementById('limitBox').innerHTML = `
+    <div class="trio">
+      <div><div class="n up">${l.up_ex}</div><div class="l">涨停（不含ST）</div></div>
+      <div><div class="n down">${l.down}</div><div class="l">跌停（含ST）</div></div>
+      <div><div class="n" style="color:var(--ink2)">${l.up_st}</div><div class="l">涨停（ST）</div></div>
+    </div>
+    <div class="sub" style="margin-top:8px;font-size:11.5px;color:var(--ink3)">样本 ${b.total} 只；涨停取东财涨停池、跌停取东财跌停池口径</div>`;
+
+  document.getElementById('lianbanTb').innerHTML = D.lianban.map(r=>
+    `<tr><td>${r.name}</td><td style="color:var(--ink2)">${r.ind}</td>
+     <td class="num"><b class="up">${r.days}</b></td></tr>`).join('');
+
+  // 行业
+  const mxSw = Math.max(...D.swTop.concat(D.swBottom).map(x=>Math.abs(x.pct)));
+  document.getElementById('swTop').innerHTML = rankRows(D.swTop, mxSw, '');
+  document.getElementById('swBottom').innerHTML = rankRows(D.swBottom, mxSw, '');
+  const mxC = Math.max(...D.conceptTop.concat(D.conceptBottom).map(x=>Math.abs(x.pct)));
+  document.getElementById('conceptTop').innerHTML = rankRows(D.conceptTop, mxC, '');
+  document.getElementById('conceptBottom').innerHTML = rankRows(D.conceptBottom, mxC, '');
+
+  // 资金
+  const mf = D.mf;
+  document.getElementById('mfHead').innerHTML = `
+    <div class="kv"><span class="pill ${mf.total<0?'g':''}">${mf.total<0?'净流出':'净流入'}</span>
+    <span class="big ${cls(mf.total)}">${Math.abs(mf.total).toFixed(2)}</span><span class="sub">亿元</span></div>
+    <div class="sub" style="font-size:11.5px;color:var(--ink3);margin-top:4px">
+      沪市 ${mf.sse.toFixed(2)} 亿 · 深市 ${mf.szse.toFixed(2)} 亿</div>`;
+  document.getElementById('mfIn').innerHTML = mf.in.map(([n,v],i)=>`
+    <div class="rankrow"><div class="no">${i+1}</div><div class="nm">${n}</div>
+    <div class="bar"><i style="width:${Math.abs(v)/Math.max(...mf.in.map(x=>Math.abs(x[1])))*100}%;background:var(--up)"></i></div>
+    <div class="val up">+${v.toFixed(2)}</div></div>`).join('');
+  document.getElementById('mfOut').innerHTML = mf.out.map(([n,v],i)=>`
+    <div class="rankrow"><div class="no">${i+1}</div><div class="nm">${n}</div>
+    <div class="bar"><i style="width:${Math.abs(v)/Math.max(...mf.out.map(x=>Math.abs(x[1])))*100}%;background:var(--down)"></i></div>
+    <div class="val down">${v.toFixed(2)}</div></div>`).join('');
+  document.getElementById('etfBox').innerHTML = `
+    <div class="kv"><span class="big up">+${D.etf.value.toFixed(2)}</span><span class="sub">亿元</span></div>
+    <div class="sub" style="font-size:11.5px;color:var(--ink3);margin-top:4px">${D.etf.date}（份额法，股票型ETF）</div>`;
+
+  // ---------- 港股 ----------
+  const hk = D.hk;
+  document.getElementById('hkIdx').innerHTML = hk.index.map(d => `
+    <div class="card idxcard"><div class="idxname">${d.name}</div>
+      <div class="idxret ${cls(d.pct)}">${pct(d.pct)}</div>
+      <div class="idxclose">${d.close.toLocaleString(undefined,{minimumFractionDigits:2})}</div></div>`).join('');
+  document.getElementById('hkAmt').innerHTML = `
+    <div class="idxname">成交额</div>
+    <div class="kv"><span class="big">${hk.index[0].amt.toFixed(2)}</span><span class="sub">亿港元 · 恒指成分成交额</span></div>
+    <div style="font-size:11.5px;color:var(--ink3);margin-top:4px">恒生科技成分成交额 ${hk.index[1].amt.toFixed(2)} 亿港元</div>`;
+  const secAsc = hk.sector.slice().sort((a,b)=>b.pct-a.pct);
+  const hkUpList = secAsc.filter(s=>s.pct>0).slice(0,5);
+  const hkDnList = secAsc.filter(s=>s.pct<0).slice().reverse().slice(0,5);
+  const mxHk = Math.max(...hk.sector.map(s=>Math.abs(s.pct)));
+  document.getElementById('hkUp').innerHTML = rankRows(hkUpList, mxHk, '');
+  document.getElementById('hkDown').innerHTML = rankRows(hkDnList, mxHk, '');
+  const sb = hk.southbound;
+  document.getElementById('hkSouth').innerHTML = `
+    <div class="kv"><span class="pill ${sb.value<0?'g':''}">${sb.value<0?'净流出':'净流入'}</span>
+      <span class="big ${cls(sb.value)}">${Math.abs(sb.value).toFixed(2)}</span><span class="sub">${sb.unit}</span></div>
+    <div style="font-size:11.5px;color:var(--ink3);margin-top:6px">${sb.date} · ${sb.note}</div>`;
+
+  // ---------- 海外 ----------
+  const us = D.us;
+  document.getElementById('usIdx').innerHTML = us.index.map(idxCard).join('');
+  document.getElementById('usStock').innerHTML = us.stock.map(idxCard).join('');
+  const v = us.vix;
+  document.getElementById('vixCard').innerHTML = `
+    <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">VIX</h2><span class="note">${v.date} 收盘 · 周频近3年</span></div>
+    <div class="kv"><span class="big ${cls(v.pct)}">${pct(v.pct)}</span><span class="sub">${v.close.toFixed(2)}</span></div>
+    <div class="chart" id="chVix"></div>
+    <div class="legend"><span><i style="background:#d43a2b"></i>VIX</span><span><i style="background:#e0954b"></i>标普500</span></div>`;
+  drawChart(document.getElementById('chVix'), {
+    series: [
+      {name:'VIX', color:'#d43a2b', data:D.hist.vix, vfmt:x=>x.toFixed(2)},
+      {name:'标普500', color:'#e0954b', data:D.hist.spx, vfmt:x=>x.toFixed(0)}
+    ], fmt:x=>x.toFixed(0)
+  });
+  document.getElementById('asiaIdx').innerHTML = D.asia.index.map(idxCard).join('');
+  document.getElementById('asiaStock').innerHTML = D.asia.stock.map(d => `
+    <div class="card idxcard"><div class="idxname">${d.name}</div>
+      <div class="idxret ${cls(d.pct)}">${pct(d.pct)}</div>
+      <div class="idxclose">${d.close.toLocaleString()}${d.unit?' '+d.unit:''}</div></div>`).join('');
+
+  // ---------- 商品 ----------
+  const cm = D.cmd.items;
+  const pick = k => cm.find(x => x.key === k);
+  const px = (v,u) => u === '美元/磅' ? v.toFixed(4) : v.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const fill = (idRet, idPx, it) => {
+    const a = document.getElementById(idRet), b = document.getElementById(idPx);
+    if(a) { a.className = 'big ' + cls(it.pct); a.textContent = pct(it.pct); }
+    if(b) { b.textContent = px(it.close, it.unit) + ' ' + it.unit + (it.date ? ' · ' + it.date : ''); }
+  };
+  fill('brentRet','brentPx', pick('brent'));
+  fill('wtiRet','wtiPx', pick('wti'));
+  const gcI = pick('gc'), xuI = pick('xau'), lmI = pick('lme'), hgI = pick('hg');
+  document.getElementById('goldDual').innerHTML = `
+    <div><div class="dl">COMEX 黄金</div><div class="dv ${cls(gcI.pct)}">${pct(gcI.pct)}</div><div class="dp">${px(gcI.close,gcI.unit)}</div></div>
+    <div><div class="dl">伦敦金</div><div class="dv ${cls(xuI.pct)}">${pct(xuI.pct)}</div><div class="dp">${px(xuI.close,xuI.unit)}</div></div>`;
+  document.getElementById('cuDual').innerHTML = `
+    <div><div class="dl">LME 铜（3M）· ${lmI.date}${lmI.note ? ' · ' + lmI.note : ''}</div><div class="dv ${cls(lmI.pct)}">${pct(lmI.pct)}</div><div class="dp">${px(lmI.close,lmI.unit)}</div></div>
+    <div><div class="dl">COMEX 铜</div><div class="dv ${cls(hgI.pct)}">${pct(hgI.pct)}</div><div class="dp">${px(hgI.close,hgI.unit)}</div></div>`;
+  drawChart(document.getElementById('chBrent'), {series:[{name:'布伦特', color:'#d43a2b', data:D.hist.brent, vfmt:x=>x.toFixed(2)+' 美元'}], fmt:x=>x.toFixed(0)});
+  drawChart(document.getElementById('chWti'), {series:[{name:'WTI', color:'#d43a2b', data:D.hist.wti, vfmt:x=>x.toFixed(2)+' 美元'}], fmt:x=>x.toFixed(0)});
+  drawChart(document.getElementById('chGc'), {series:[{name:'COMEX 金', color:'#d43a2b', data:D.hist.gc, vfmt:x=>x.toFixed(0)+' 美元'}], fmt:x=>x.toFixed(0)});
+  drawChart(document.getElementById('chLme'), {series:[{name:'LME铜', color:'#d43a2b', data:D.hist.lme, vfmt:x=>x.toFixed(0)+' 美元'}], fmt:x=>x.toFixed(0)});
+
+  // 风格动量图
+  D.styles.forEach((s,i)=>{
+    const F = v => (v*100).toFixed(2)+'%';
+    drawChart(document.getElementById('sty'+i), {
+      shared: true,
+      series: [
+        {name:'动量', color:'#d43a2b', data:s.mom, vfmt:F},
+        {name:'均值', color:'#8a97a8', dash:'4 3', width:1.1, data:s.mean, vfmt:F},
+        {name:'+1σ', color:'#5B9BD5', dash:'2 3', width:1, data:s.p1, vfmt:F},
+        {name:'-1σ', color:'#5B9BD5', dash:'2 3', width:1, data:s.m1, vfmt:F},
+        {name:'+2σ', color:'#FFC000', dash:'2 3', width:1, data:s.p2, vfmt:F},
+        {name:'-2σ', color:'#FFC000', dash:'2 3', width:1, data:s.m2, vfmt:F}
+      ],
+      fmt: v => (v*100).toFixed(1)+'%'
+    });
+  });
+
+  // 基差图
+  D.basis.forEach((b,i)=>{
+    const box = document.getElementById('basis'+i);
+    const data1 = b.series.map(p=>({d:p.d, v:p.v}));
+    const data2 = b.series.map(p=>({d:p.d, v:p.s}));
+    drawChart(box, {
+      series:[
+        {name:'基差', color:'#d43a2b', data:data1, vfmt:v=>v.toFixed(2)+' 点'},
+        {name:'指数', color:'#e0954b', data:data2, vfmt:v=>v.toFixed(0)}
+      ],
+      fmt:v=>v.toFixed(0)
+    });
+  });
+
+  // 成交额趋势
+  if(tn.series.length){
+    drawChart(document.getElementById('chTurn'), {
+      shared: true,
+      series: [
+        {name:'沪深合计', color:'#d43a2b', data:tn.series, vfmt:v=>v.toFixed(0)+' 亿'},
+        {name:'5 日均', color:'#8a97a8', width:1.2, dash:'4 3', data:tn.ma5, vfmt:v=>v.toFixed(0)+' 亿'},
+        {name:'20 日均', color:'#5B9BD5', width:1.2, dash:'4 3', data:tn.ma20, vfmt:v=>v.toFixed(0)+' 亿'}
+      ],
+      fmt:v=>v.toFixed(0),
+      xfmt:d=>(d||'').slice(5).replace('-','/')
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{ if (D) renderAll(); });
+
+/* ---------- 路由 ---------- */
+const PAGES = ['stocks-a','stocks-hk','stocks-global','stocks-commodity','macro','bond','brief','feed'];
+function route(){
+  const h = (location.hash||'').replace('#','') || 'stocks-a';
+  const target = PAGES.includes(h) ? h : 'stocks-a';
+  document.querySelectorAll('[data-page]').forEach(el=>{
+    el.style.display = (el.dataset.page === target) ? '' : 'none';
+  });
+  document.querySelectorAll('.nav1 a,.nav2 a').forEach(a=>{
+    a.classList.toggle('on', a.getAttribute('href') === '#'+target);
+  });
+  const second = target.startsWith('stocks-');
+  document.getElementById('nav2Wrap').style.display = second ? '' : 'none';
+  window.scrollTo({top:0, behavior:'instant'});
+}
+window.addEventListener('hashchange', route);
+document.addEventListener('DOMContentLoaded', route);
+
+/* ---------- 返回顶部 ---------- */
+window.addEventListener('scroll', ()=>{
+  document.getElementById('toTop').classList.toggle('show', window.scrollY>400);
+});
+function toTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
+</script>
+<script>
+(function(){
+  var tip = document.getElementById('loadTip');
+  fetch('data.json?v=' + Date.now(), {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(d){ if(tip) tip.style.display='none'; boot(d); })
+    .catch(function(e){
+      if(tip){ tip.style.display='block';
+        tip.querySelector('.m').textContent = 'data.json 读取失败（' + e.message +
+          '）。若在本地双击打开，请改看「市场跟踪工作台.html」。'; }
+    });
+})();
+</script></body>
+</html>
