@@ -631,6 +631,8 @@ function renderAll(){
   const m5 = lastMA(tn.ma5), m20 = lastMA(tn.ma20);
   const vs = (a,b)=> b ? (a-b)/b*100 : 0;
   const sg = v => (v>0?'+':'') + v.toFixed(1) + '%';
+  const tcmp = (t.kind==='盘中' ? t.est : t.v);
+  const tlab = (t.kind==='盘中' ? '今日（外推）' : '今日');
   document.getElementById('turnCard').innerHTML = `
     <div class="idxname">两市成交额</div>
     <div class="kv"><span class="pill ${t.diff<0?'g':''}">${t.tag}</span></div>
@@ -643,8 +645,8 @@ function renderAll(){
       <div><div class="dl">深市</div><div class="dv">${t.sz.toFixed(2)}</div></div>
     </div>
     <div style="margin-top:10px;font-size:11.5px;color:var(--ink3);line-height:1.95">
-      ${m5===null?'5 日均 —':`5 日均 <b style="color:var(--ink2)">${m5.toFixed(0)} 亿</b>，今日 ${sg(vs(t.v,m5))}`}<br>
-      ${m20===null?'20 日均 —':`20 日均 <b style="color:var(--ink2)">${m20.toFixed(0)} 亿</b>，今日 ${sg(vs(t.v,m20))}`}
+      ${m5===null?'5 日均 —':`5 日均 <b style="color:var(--ink2)">${m5.toFixed(0)} 亿</b>，${tlab} ${sg(vs(tcmp,m5))}`}<br>
+      ${m20===null?'20 日均 —':`20 日均 <b style="color:var(--ink2)">${m20.toFixed(0)} 亿</b>，${tlab} ${sg(vs(tcmp,m20))}`}
     </div>`;
 
   // 情绪
