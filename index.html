@@ -163,7 +163,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
     <div class="datebar">
       <b>2026-11-03</b><span>星期二</span>
       <span class="sep">|</span><span>A股盘中</span>
-      <span class="sep">|</span><span>数据截至 11:40（半日）</span>
+      <span class="sep">|</span><span>数据截至 14:00（半日）</span>
     </div>
   </div>
 </div>
@@ -186,7 +186,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
 
   <!-- ============ A股 ============ -->
   <div data-page="stocks-a">
-    <div class="datebar2">2026-11-03 星期二 · A股盘中 · 数据截至 11:40（11:30 半日）</div>
+    <div class="datebar2">2026-11-03 星期二 · A股盘中 · 数据截至 14:00（11:30 半日）</div>
     <section>
       <div class="shead"><h2>1 · 市场指数</h2><span class="note">11:40 盘中 · 15:20 收盘 · 两段都跑</span></div>
       <div class="glab">宽基</div>
@@ -227,13 +227,13 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
       <div class="shead"><h2>4 · 行业</h2><span class="note">11:40 盘中 · 15:20 收盘</span></div>
       <div class="grid g2">
         <div class="card">
-          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">一级行业 · 涨幅前5</h2>
-            <span class="note">东财一级行业口径</span></div>
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">行业板块 · 涨幅前5</h2>
+            <span class="note">东财行业板块口径 · 东财一级行业口径</span></div>
           <div class="rank" id="swTop"></div>
         </div>
         <div class="card">
-          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">一级行业 · 跌幅前5</h2>
-            <span class="note">东财一级行业口径</span></div>
+          <div class="shead" style="margin:0 0 10px"><h2 style="font-size:13px">行业板块 · 跌幅前5</h2>
+            <span class="note">东财行业板块口径 · 东财一级行业口径</span></div>
           <div class="rank" id="swBottom"></div>
         </div>
       </div>
@@ -365,7 +365,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
           <tbody>
             <tr><td>8 大指数</td><td>AlphaPai 数据库 · 指数日行情</td><td>收盘价 / 涨跌幅</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
             <tr><td>两市成交额</td><td>上证指数 + 深证成指成交额加总（东财日线 f57）</td><td>沪深两市，不含北交所；60 交易日历史已缓存</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
-            <tr><td>涨跌家数</td><td>AlphaPai · 全A个股日行情汇总</td><td>样本含北交所，平盘=收盘等于昨收</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
+            <tr><td>涨跌家数</td><td>东财指数行情 f104/f105/f106（盘中）· AlphaPai 全A汇总（收盘）</td><td>盘中为沪深两市合计、不含北交所</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
             <tr><td>涨停 / 跌停</td><td>东财涨停池 / 跌停池</td><td>涨停不含ST单列；跌停含ST</td><td>11:40 盘中值 · 15:20 收盘值</td></tr>
             <tr><td>连板</td><td>东财涨停池 lbc（盘中）· AlphaPai 连板指标（收盘）</td><td>仅取计算状态有效记录，天数逆序</td><td>11:40 · 15:20</td></tr>
             <tr><td>一级行业</td><td>东财行业板块（盘中）· AlphaPai 申万行业指数（收盘）</td><td>31 个一级行业；盘中东财一级口径</td><td>11:40 · 15:20</td></tr>
@@ -657,14 +657,14 @@ function renderAll(){
       <div><div class="n down">${b.down}</div><div class="l">下跌</div></div>
       <div><div class="n flat">${b.flat}</div><div class="l">平盘</div></div>
     </div>
-    <div style="font-size:11.5px;color:var(--ink3);margin-top:8px">样本 ${b.total} 只，含北交所；平盘=收盘等于昨收</div>`;
+    <div style="font-size:11.5px;color:var(--ink3);margin-top:8px">样本 ${b.total} 只（沪+深，不含北交所）；平盘=收盘等于昨收</div>`;
   document.getElementById('limitBox').innerHTML = `
     <div class="trio">
       <div><div class="n up">${l.up_ex}</div><div class="l">涨停（不含ST）</div></div>
       <div><div class="n down">${l.down}</div><div class="l">跌停（含ST）</div></div>
       <div><div class="n" style="color:var(--ink2)">${l.up_st}</div><div class="l">涨停（ST）</div></div>
     </div>
-    <div class="sub" style="margin-top:8px;font-size:11.5px;color:var(--ink3)">样本 ${b.total} 只；涨停取东财涨停池、跌停取东财跌停池口径</div>`;
+    <div class="sub" style="margin-top:8px;font-size:11.5px;color:var(--ink3)">样本 ${b.total} 只（沪+深）；涨跌停取东财涨停池/跌停池 tc 口径（含ST）</div>`;
 
   document.getElementById('lianbanTb').innerHTML = D.lianban.map(r=>
     `<tr><td>${r.name}</td><td style="color:var(--ink2)">${r.ind}</td>
@@ -693,9 +693,12 @@ function renderAll(){
     <div class="rankrow"><div class="no">${i+1}</div><div class="nm">${n}</div>
     <div class="bar"><i style="width:${Math.abs(v)/Math.max(...mf.out.map(x=>Math.abs(x[1])))*100}%;background:var(--down)"></i></div>
     <div class="val down">${v.toFixed(2)}</div></div>`).join('');
-  document.getElementById('etfBox').innerHTML = `
-    <div class="kv"><span class="big up">+${D.etf.value.toFixed(2)}</span><span class="sub">亿元</span></div>
-    <div class="sub" style="font-size:11.5px;color:var(--ink3);margin-top:4px">${D.etf.date}（份额法，股票型ETF）</div>`;
+  const _etf = D.etf || {};
+  document.getElementById('etfBox').innerHTML = (_etf.value === null || _etf.value === undefined) ? `
+    <div class="kv"><span class="big">未获取</span></div>
+    <div class="sub" style="font-size:11.5px;color:var(--ink3);margin-top:4px">ETF 份额数据未取到，未沿用上一交易日数值</div>` : `
+    <div class="kv"><span class="big ${_etf.value>=0?'up':'down'}">${_etf.value>=0?'+':''}${_etf.value.toFixed(2)}</span><span class="sub">亿元</span></div>
+    <div class="sub" style="font-size:11.5px;color:var(--ink3);margin-top:4px">${_etf.date||'日期未标'}（份额法，股票型ETF）</div>`;
 
   // ---------- 港股 ----------
   const hk = D.hk;
