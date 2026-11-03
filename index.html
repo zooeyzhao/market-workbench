@@ -631,22 +631,23 @@ function renderAll(){
   const m5 = lastMA(tn.ma5), m20 = lastMA(tn.ma20);
   const vs = (a,b)=> b ? (a-b)/b*100 : 0;
   const sg = v => (v>0?'+':'') + v.toFixed(1) + '%';
-  const tcmp = (t.kind==='盘中' ? t.est : t.v);
-  const tlab = (t.kind==='盘中' ? '今日（外推）' : '今日');
+  const tcmp = t.v;
+  const tlab = (t.kind==='盘中' ? ('今日（截至 ' + t.asof + '）') : '今日');
   document.getElementById('turnCard').innerHTML = `
     <div class="idxname">两市成交额</div>
     <div class="kv"><span class="pill ${t.diff<0?'g':''}">${t.tag}</span></div>
     <div class="idxret ${cls(t.diff)}" style="font-size:26px">${t.v.toFixed(2)}<span style="font-size:12px;font-weight:500"> 亿元</span></div>
     <div class="idxclose">${t.kind==='盘中'
-      ? `半日值 · 线性外推 ${Math.round(t.est)} 亿，较前一交易日全天 ${t.diff>0?'+':''}${t.diff.toFixed(2)} 亿（${t.pct>0?'+':''}${t.pct.toFixed(1)}%）`
+      ? `截至 ${t.asof} 累计，较前一交易日<b>全天</b> ${t.diff>0?'+':''}${t.diff.toFixed(2)} 亿（${t.pct>0?'+':''}${t.pct.toFixed(1)}%，未收盘不可直接比）`
       : `较前一交易日 ${t.diff>0?'+':''}${t.diff.toFixed(2)} 亿元（${t.pct>0?'+':''}${t.pct.toFixed(1)}%）`}</div>
     <div class="dual">
       <div><div class="dl">沪市</div><div class="dv">${t.sh.toFixed(2)}</div></div>
       <div><div class="dl">深市</div><div class="dv">${t.sz.toFixed(2)}</div></div>
     </div>
     <div style="margin-top:10px;font-size:11.5px;color:var(--ink3);line-height:1.95">
-      ${m5===null?'5 日均 —':`5 日均 <b style="color:var(--ink2)">${m5.toFixed(0)} 亿</b>，${tlab} ${sg(vs(tcmp,m5))}`}<br>
-      ${m20===null?'20 日均 —':`20 日均 <b style="color:var(--ink2)">${m20.toFixed(0)} 亿</b>，${tlab} ${sg(vs(tcmp,m20))}`}
+      ${t.kind==='盘中'
+        ? `5 日均 <b style="color:var(--ink2)">${m5===null?'—':m5.toFixed(0)+' 亿'}</b> · 20 日均 <b style="color:var(--ink2)">${m20===null?'—':m20.toFixed(0)+' 亿'}</b>（全天口径，当日未收盘不做同比）`
+        : `${m5===null?'5 日均 —':`5 日均 <b style="color:var(--ink2)">${m5.toFixed(0)} 亿</b>，今日 ${sg(vs(t.v,m5))}`}<br>${m20===null?'20 日均 —':`20 日均 <b style="color:var(--ink2)">${m20.toFixed(0)} 亿</b>，今日 ${sg(vs(t.v,m20))}`}`}
     </div>`;
 
   // 情绪
