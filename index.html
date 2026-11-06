@@ -149,6 +149,63 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
     box-shadow:0 4px 14px rgba(158,42,35,.28);opacity:.95}
 }
 
+/* ---------- 简报 ---------- */
+.btabs{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
+.btabs a{padding:7px 16px;border-radius:999px;background:rgba(255,255,255,.86);border:1px solid var(--line);
+  color:var(--ink2);font-size:13px;text-decoration:none;cursor:pointer;transition:background .15s}
+.btabs a.on{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:600}
+.bmeta{font-size:12px;color:var(--ink3);margin:0 0 16px}
+.vsec{margin:20px 0 10px;font-size:13px;color:var(--ink);font-weight:600;display:flex;align-items:center;gap:8px}
+.vsec:before{content:"";width:3px;height:13px;background:var(--brand);border-radius:2px}
+.vsec.mk{margin:14px 0 4px}
+.vsub{font-size:12px;color:var(--brand);font-weight:600;margin:14px 0 0;letter-spacing:.3px}
+.vi{padding:12px 0;border-bottom:1px solid var(--divider);display:flex;gap:11px}
+.vi:last-child{border-bottom:0}
+.vi .dot{width:6px;height:6px;border-radius:50%;background:var(--brand2);margin-top:8px;flex:0 0 6px}
+.vi.split .dot{background:var(--down)}
+.vi .txt{font-size:13.5px;line-height:1.78;color:var(--ink)}
+.vi .src{margin-top:6px;font-size:11.5px;color:var(--ink3);display:flex;gap:10px;flex-wrap:wrap}
+.vi .src a{color:var(--brand);text-decoration:none;border-bottom:1px dashed rgba(176,50,39,.35)}
+.vi .src a:hover{border-bottom-style:solid}
+.badge-split{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:4px;
+  background:rgba(18,133,92,.10);color:var(--down);margin-left:6px;vertical-align:1px}
+.hw{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--divider)}
+.hw:last-child{border-bottom:0}
+.hw .nm{width:150px;font-size:13px;color:var(--ink);flex:0 0 150px}
+.hw .bar{flex:1;height:8px;border-radius:4px;background:rgba(122,102,98,.10);overflow:hidden;min-width:40px}
+.hw .bar i{display:block;height:100%;border-radius:4px;background:var(--up)}
+.hw.cold .bar i{background:var(--down)}
+.hw .n{font-size:12px;color:var(--ink2);width:30px;text-align:right;flex:0 0 30px}
+.hw .who{width:168px;font-size:11.5px;color:var(--ink3);text-align:right;flex:0 0 168px}
+.hw .note{font-size:11.5px;color:var(--ink3);margin-top:3px;line-height:1.5}
+.tl{position:relative;padding-left:18px;margin-top:4px}
+.tl:before{content:"";position:absolute;left:4px;top:8px;bottom:8px;width:1px;background:var(--divider)}
+.tl .it{position:relative;padding:10px 0}
+.tl .it:before{content:"";position:absolute;left:-18px;top:16px;width:7px;height:7px;border-radius:50%;
+  background:#fff;border:1.5px solid var(--brand2);box-sizing:border-box}
+.tl .tm{font-size:11.5px;color:var(--ink3)}
+.tl .tt{font-size:13.5px;color:var(--ink);margin-top:2px;font-weight:500}
+.tl .tt a{color:inherit;text-decoration:none;border-bottom:1px solid transparent}
+.tl .tt a:hover{border-bottom-color:var(--brand2);color:var(--brand)}
+.tl .sm{font-size:12.5px;color:var(--ink2);margin-top:3px;line-height:1.62}
+.aRow{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--divider);font-size:13px}
+.aRow:last-child{border-bottom:0}
+.aRow .ad{width:76px;color:var(--ink3);font-size:11.5px;flex:0 0 76px;padding-top:2px}
+.aRow .an{width:88px;flex:0 0 88px;color:var(--ink);font-weight:600;font-size:12.5px}
+.aRow .at{flex:1;color:var(--ink2);line-height:1.55}
+.aRow .at a{color:inherit;text-decoration:none}
+.aRow .at a:hover{color:var(--brand)}
+.aRow .ac{font-size:11px;color:var(--ink3);flex:0 0 66px;text-align:right;padding-top:2px}
+.aRow.key .at{color:var(--ink)}
+.dotkey{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--up);margin-right:5px;vertical-align:2px}
+@media(max-width:640px){
+  .hw{flex-wrap:wrap;gap:4px}
+  .hw .nm{width:auto;flex:1 1 100%}
+  .hw .who{width:auto;flex:1 1 100%;text-align:left}
+  .aRow .an{flex:0 0 68px;width:68px}
+  .aRow .ac{display:none}
+}
+
 /* ================= 液态玻璃主题（中性白灰底 + 单一品牌红，干净配色） ================= */
 :root{
   --bg:#f7f7f8;
@@ -300,8 +357,8 @@ footer{border-top:1px solid var(--line)}
     </div>
     <div class="datebar">
       <b>2026-11-06</b><span>星期五</span>
-      <span class="sep">|</span><span>A股盘中</span>
-      <span class="sep">|</span><span>数据截至 11:40</span>
+      <span class="sep">|</span><span>A股最新交易日</span>
+      <span class="sep">|</span><span>数据截至 15:00 收盘</span>
     </div>
   </div>
 </div>
@@ -324,7 +381,7 @@ footer{border-top:1px solid var(--line)}
 
   <!-- ============ A股 ============ -->
   <div data-page="stocks-a">
-    <div class="datebar2">2026-11-06 星期五 · A股盘中 · 数据截至 11:40</div>
+    <div class="datebar2">2026-11-06 星期五 · A股最新交易日 · 15:00 收盘</div>
     <section>
       <div class="shead"><h2>1 · 市场指数</h2><span class="note">11:40 盘中 · 15:20 收盘 · 两段都跑</span></div>
       <div class="glab">宽基</div>
@@ -614,7 +671,31 @@ footer{border-top:1px solid var(--line)}
     <div class="placeholder"><b>固收 · 待搭建</b></div>
   </div>
   <div data-page="brief" style="display:none">
-    <div class="placeholder"><b>简报 · 待搭建</b>可接日内四段简报归档</div>
+    <div class="btabs" id="bTabs">
+      <a href="javascript:void(0)" data-btab="social" class="on">公众号</a>
+      <a href="javascript:void(0)" data-btab="roadshow">近期路演</a>
+      <a href="javascript:void(0)" data-btab="ann">公司公告</a>
+    </div>
+    <div class="bmeta" id="bMeta"></div>
+
+    <div data-btab-pane="social">
+      <div id="bViews"></div>
+      <div class="vsec">热力词 · 推荐关注</div>
+      <div class="card" style="padding:8px 18px"><div id="bHot"></div></div>
+      <div class="vsec mk">冷力词 · 风险预警</div>
+      <div class="card" style="padding:8px 18px"><div id="bCold"></div></div>
+      <div class="vsec">重点新闻</div>
+      <div class="card" style="padding:6px 20px 10px"><div class="tl" id="bNews"></div></div>
+    </div>
+
+    <div data-btab-pane="roadshow" style="display:none">
+      <div id="bRoad"></div>
+    </div>
+
+    <div data-btab-pane="ann" style="display:none">
+      <div class="bmeta" id="bAnnMeta"></div>
+      <div class="card" style="padding:8px 18px"><div id="bAnn"></div></div>
+    </div>
   </div>
   <div data-page="feed" style="display:none">
     <div class="placeholder"><b>动态 · 待搭建</b></div>
@@ -757,6 +838,99 @@ function rankRows(list, maxAbs, unit){
       <div class="val ${c==='var(--up)'?'up':'down'}">${(x.pct!==undefined? pct(x.pct): x.v.toFixed(2))}${unit||''}</div>
     </div>`;
   }).join('');
+}
+
+
+/* ---------- 简报 ---------- */
+function brEsc(s){ return (s||'').replace(/[<>&]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])); }
+
+function renderBrief(){
+  const B = D.brief || {}, R = D.roadshow || {}, A = D.ann || {};
+  const meta = document.getElementById('bMeta');
+  if(meta && B.stats){
+    meta.textContent = `近 48 小时（${(B.window||{}).from||''} → ${(B.window||{}).to||''}）· 订阅号 ${B.stats.channels} 个、文章 ${B.stats.articles} 篇，纳入 ${B.stats.used} 篇 · 更新 ${B.as_of||''}`;
+  }
+  const srcs = arr => (arr||[]).map(x=>`<a href="${x.u||'#'}" target="_blank" rel="noopener" title="${x.t||''}">${x.m} · ${x.d}${x.t?' · '+x.t:''}</a>`).join('');
+  const one = it => `<div class="vi ${it.split?'split':''}"><span class="dot"></span><div>
+      <div class="txt">${it.p}${it.split?'<span class="badge-split">与上文分歧</span>':''}</div>
+      <div class="src">${srcs(it.src)}</div></div></div>`;
+  const vEl = document.getElementById('bViews');
+  if(vEl){
+    vEl.innerHTML = (B.views||[]).map(g=>{
+      let body = '';
+      if(g.items) body = g.items.map(one).join('');
+      if(g.groups) body = g.groups.map(gr=>`<div class="vsub">${gr.name}</div>` + gr.items.map(one).join('')).join('');
+      return `<div class="vsec">${g.title}</div><div class="card" style="padding:4px 18px">${body}</div>`;
+    }).join('');
+  }
+  const bars = (list, cold) => {
+    const mx = Math.max(1, ...(list||[]).map(x=>x.n));
+    return (list||[]).map(x=>`<div class="hw ${cold?'cold':''}">
+      <div class="nm">${x.w}<div class="note">${x.note||''}</div></div>
+      <div class="bar"><i style="width:${Math.round(x.n/mx*100)}%"></i></div>
+      <div class="n">${x.n}</div>
+      <div class="who">${x.who||''}</div></div>`).join('');
+  };
+  const hEl = document.getElementById('bHot'), cEl = document.getElementById('bCold');
+  if(hEl) hEl.innerHTML = bars((B.heat||{}).hot, false);
+  if(cEl) cEl.innerHTML = bars((B.heat||{}).cold, true);
+  const nEl = document.getElementById('bNews');
+  if(nEl) nEl.innerHTML = (B.news||[]).map(n=>`
+    <div class="it"><div class="tm">${n.d} · ${n.m}</div>
+      <div class="tt"><a href="${n.u||'#'}" target="_blank" rel="noopener">${n.t}</a></div>
+      <div class="sm">${n.s||''}</div></div>`).join('');
+
+  const rr = document.getElementById('bRoad');
+  if(rr){
+    if(!R || !R.ok){
+      rr.innerHTML = '<div class="placeholder"><b>暂无路演周报</b>每周五 17:00 更新后自动带入</div>';
+    } else {
+      rr.innerHTML = `
+        <div class="vsec">本周路演 · 核心速览</div>
+        <div class="card" style="padding:14px 20px">
+          <div class="kv" style="margin:0 0 4px"><span class="big" style="font-size:15px">代参路演观点周度整合</span>
+            <span class="sub">${R.date} · ${R.sessions_n||''}</span></div>
+          <div class="bmeta" style="margin:0 0 6px">覆盖 ${R.period||'本周'} · 数据截至 ${R.as_of||''} · 原文 <a href="${R.rel}" target="_blank" style="color:var(--brand)">${R.file}</a></div>
+          ${(R.brief||[]).map(b=>`<div class="vi"><span class="dot"></span><div class="txt">${b}</div></div>`).join('')}
+        </div>
+        <div class="vsec">主题拆解</div>
+        <div class="card" style="padding:4px 18px">
+          ${(R.themes||[]).map(t=>`<div class="vi"><span class="dot"></span><div><div class="txt"><b>${t.t.replace(/^\d+/,'')}</b></div><div class="sm" style="color:var(--ink2)">${t.s||''}</div></div></div>`).join('')}
+        </div>
+        <div class="vsec">本场纪要</div>
+        <div class="card" style="padding:12px 18px">${(R.sessions||[]).map(x=>`<span class="tag" style="margin:4px 6px 4px 0;display:inline-block">${x}</span>`).join('') || '<span class="note">未解析到场次</span>'}</div>`;
+    }
+  }
+
+  const am = document.getElementById('bAnnMeta');
+  if(am && A.items){
+    const nStock = new Set(A.items.map(i=>i.code)).size;
+    am.textContent = `自选股 A 股 ${nStock} 只 · 近 ${A.days} 日公告 ${A.n} 条 · 抓取 ${A.as_of}（东财公告库；港股公告暂未接入）`;
+  }
+  const ab = document.getElementById('bAnn');
+  if(ab){
+    if(A.items && A.items.length){
+      const by = {};
+      A.items.forEach(i=>{ (by[i.d] = by[i.d] || []).push(i); });
+      ab.innerHTML = Object.keys(by).sort().reverse().map(d=>`
+        <div class="vsub" style="margin:12px 0 2px">${d}</div>
+        ${by[d].map(i=>`<div class="aRow ${i.key?'key':''}">
+          <div class="ad">${i.name}</div>
+          <div class="an">${i.cat}</div>
+          <div class="at">${i.key?'<span class="dotkey"></span>':''}<a href="${i.u}" target="_blank" rel="noopener">${i.t}</a></div>
+          <div class="ac">${(i.code||'').slice(0,6)}</div></div>`).join('')}`).join('');
+    } else { ab.innerHTML = '<div class="placeholder"><b>暂无公告</b></div>'; }
+  }
+}
+
+function initBTabs(){
+  const tabs = Array.prototype.slice.call(document.querySelectorAll('#bTabs a'));
+  tabs.forEach(a=>a.addEventListener('click', ()=>{
+    tabs.forEach(x=>x.classList.toggle('on', x===a));
+    document.querySelectorAll('[data-btab-pane]').forEach(p=>{
+      p.style.display = (p.dataset.btabPane === a.dataset.btab) ? '' : 'none';
+    });
+  }));
 }
 
 function renderAll(){
@@ -952,7 +1126,7 @@ function renderAll(){
   }
 }
 
-document.addEventListener('DOMContentLoaded', ()=>{ if (D) renderAll(); });
+document.addEventListener('DOMContentLoaded', ()=>{ if (D) renderAll(); try{ renderBrief(); initBTabs(); }catch(e){ console.warn('brief', e); } });
 
 /* ---------- 路由 ---------- */
 const PAGES = ['stocks-a','stocks-hk','stocks-global','stocks-commodity','macro','bond','brief','feed'];
