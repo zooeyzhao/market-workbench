@@ -752,7 +752,7 @@ let D = null;
   const el = document.getElementById('DATA');
   if (el && el.textContent.trim()) D = JSON.parse(el.textContent);
 })();
-function boot(data){ D = data; renderAll(); }
+function boot(data){ D = data; renderAll(); try{ renderBrief(); initBTabs(); }catch(e){ console.warn('brief', e); } }
 
 function cls(v){ if(v>0) return 'up'; if(v<0) return 'down'; return 'flat'; }
 function pct(v,d=2){ const s=(v>0?'+':'')+v.toFixed(d)+'%'; return s; }
@@ -1202,7 +1202,7 @@ function renderAll(){
   }
 }
 
-document.addEventListener('DOMContentLoaded', ()=>{ if (D) renderAll(); try{ renderBrief(); initBTabs(); }catch(e){ console.warn('brief', e); } });
+document.addEventListener('DOMContentLoaded', ()=>{ if (D) { renderAll(); try{ renderBrief(); initBTabs(); }catch(e){ console.warn('brief', e); } } });
 
 /* ---------- 路由 ---------- */
 const PAGES = ['stocks-a','stocks-hk','stocks-global','stocks-commodity','macro','bond','brief','feed'];
