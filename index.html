@@ -154,6 +154,18 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
 .btabs a{padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.86);border:1px solid var(--line);
   color:var(--ink2);font-size:13px;text-decoration:none;cursor:pointer;transition:background .15s}
 .btabs a.on{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:600}
+/* 热力词板块内分组标签 */
+.hwlbl{display:flex;align-items:baseline;gap:8px;font-size:12px;color:var(--brand);font-weight:700;
+  padding:8px 0 6px;letter-spacing:.3px}
+.hwlbl span{font-size:11px;color:var(--ink3);font-weight:400;letter-spacing:0}
+.hwlbl.cold{color:var(--down);margin-top:4px;border-top:1px solid var(--divider);padding-top:10px}
+/* 公告分类横排 tab */
+.atabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.atabs a{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.86);border:1px solid var(--line);
+  color:var(--ink2);font-size:12px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.atabs a i{font-style:normal;font-size:11px;color:var(--ink3)}
+.atabs a.on{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:600}
+.atabs a.on i{color:rgba(255,255,255,.85)}
 /* 公告分类折叠 */
 details.agrp{margin:8px 0 2px;border-top:1px solid var(--divider);padding-top:6px}
 details.agrp:first-of-type{border-top:0}
@@ -697,11 +709,14 @@ footer{border-top:1px solid var(--line)}
     </div>
     <div data-btab-pane="social">
       <div class="bmeta" id="bMeta"></div>
+      <div class="vsec" style="margin-top:16px">热力词<span class="note" style="font-weight:400">热词看推荐热度，冷词看风险预警</span></div>
+      <div class="card" style="padding:6px 18px 10px">
+        <div class="hwlbl">热词 · 推荐关注<span>按推荐数排序</span></div>
+        <div id="bHot"></div>
+        <div class="hwlbl cold">冷词 · 风险预警<span>按防范数排序</span></div>
+        <div id="bCold"></div>
+      </div>
       <div id="bViews"></div>
-      <div class="vsec">热力词 · 推荐关注</div>
-      <div class="card" style="padding:8px 18px"><div id="bHot"></div></div>
-      <div class="vsec mk">冷力词 · 风险预警</div>
-      <div class="card" style="padding:8px 18px"><div id="bCold"></div></div>
       <div class="vsec">重点新闻</div>
       <div class="card" style="padding:6px 20px 10px"><div class="tl" id="bNews"></div></div>
     </div>
@@ -955,7 +970,7 @@ function renderBrief(){
   const ab = document.getElementById('bAnn');
   if(ab){
     if(A.items && A.items.length){
-      // 按公告类型分组折叠，组内按日期倒序、同日重点置顶
+      // 按公告类型做横排 tab，组内按日期倒序、同日重点置顶
       const order = ['持股变动','财务报告','重大事项','资产重组','风险提示','信息变更','其他'];
       const by = {};
       A.items.forEach(i=>{ const c = i.cat || '其他'; (by[c] = by[c] || []).push(i); });
@@ -965,11 +980,21 @@ function renderBrief(){
           <div class="an">${(i.d||'').slice(5)}</div>
           <div class="at">${i.key?'<span class="dotkey"></span>':''}<a href="${i.u}" target="_blank" rel="noopener">${i.t}</a></div>
           <div class="ac">${(i.code||'').slice(0,6)}</div></div>`;
-      ab.innerHTML = cats.map((c,ci)=>{
+      const tabs = cats.map((c,ci)=>`<a href="javascript:void(0)" data-acat="${c}" class="${ci?'':'on'}">${c}<i>${by[c].length}</i></a>`).join('');
+      const panes = cats.map((c,ci)=>{
         const list = by[c].sort((a,b)=> a.d===b.d ? ((b.key?1:0)-(a.key?1:0)) : (a.d<b.d?1:-1));
-        const kn = list.filter(x=>x.key).length;
-        return `<details class="agrp" ${ci<2?'open':''}><summary>${c}<span class="cnt">${list.length} 条${kn?' · 重点 '+kn:''}</span></summary>${list.map(row).join('')}</details>`;
+        return `<div class="apane" data-acat="${c}" style="${ci?'display:none':''}">${list.map(row).join('')}</div>`;
       }).join('');
+      ab.innerHTML = `<div class="atabs">${tabs}</div>${panes}`;
+      if(!ab.dataset.bound){
+        ab.dataset.bound = '1';
+        ab.addEventListener('click', e=>{
+          const a = e.target.closest ? e.target.closest('.atabs a') : null;
+          if(!a) return;
+          ab.querySelectorAll('.atabs a').forEach(x=>x.classList.toggle('on', x===a));
+          ab.querySelectorAll('.apane').forEach(p=>{ p.style.display = (p.dataset.acat===a.dataset.acat) ? '' : 'none'; });
+        });
+      }
     } else { ab.innerHTML = '<div class="placeholder"><b>暂无公告</b></div>'; }
   }
 }
