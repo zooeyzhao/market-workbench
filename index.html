@@ -9,7 +9,7 @@
   --bg:#faf6f5; --card:#fff; --ink:#241a18; --ink2:#6d5d59; --ink3:#9c8b86;
   --line:#ecdfdc; --divider:#f3ebe9; --ph:#e3c8c3; --grid:#f1e9e7; --zero:#dcc0bb;
   --brand:#9e2a23; --brand2:#c0574a; --brand-soft:#f9edeb;
-  --up:#d43a2b; --down:#128f5c; --flat:#8a97a8; --warn:#b54708;
+  --up:#c8352a; --down:#128f5c; --flat:#aab0b7; --warn:#b54708;
   --radius:14px; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.04);
 }
 *{box-sizing:border-box}
@@ -148,6 +148,144 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
   #toTop{right:12px;bottom:calc(14px + env(safe-area-inset-bottom));width:40px;height:40px;
     box-shadow:0 4px 14px rgba(158,42,35,.28);opacity:.95}
 }
+
+/* ================= 液态玻璃主题（中性白灰底 + 单一品牌红，干净配色） ================= */
+:root{
+  --bg:#f7f7f8;
+  --card:rgba(255,255,255,.62);
+  --ink:#1f2328; --ink2:#5b6167; --ink3:#8b9299;
+  --line:#e8e9ec; --divider:#eef0f2; --ph:#e8e9ec;
+  --grid:#edeef1; --zero:#c2c5c9;
+  --brand:#b03227; --brand2:#c9564a; --brand-soft:#f7f2f1;
+  --up:#c8352a; --down:#12855c; --flat:#98a1ab;
+  --radius:18px;
+  --shadow:0 8px 24px rgba(20,26,33,.06), 0 1px 3px rgba(20,26,33,.04);
+  --g-brd:rgba(255,255,255,.9);
+  --g-hi:inset 0 1px 0 rgba(255,255,255,.9);
+}
+html{background:#f3eae7}
+/* 背景：淡彩云团（低饱和、大半径、70px 软化）——玻璃需要有"形状"可透、可模糊 */
+body{
+  background:linear-gradient(165deg,#fdf6f3 0%,#f8ece8 40%,#f2e7e5 70%,#eeeff2 100%);
+  background-attachment:fixed;
+}
+body::before{
+  content:""; position:fixed; inset:-8%; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(closest-side, rgba(222,118,96,.44), transparent) 6% 3%/40vw 34vw no-repeat,
+    radial-gradient(closest-side, rgba(242,172,132,.40), transparent) 94% 8%/34vw 30vw no-repeat,
+    radial-gradient(closest-side, rgba(224,148,148,.34), transparent) 36% 38%/38vw 30vw no-repeat,
+    radial-gradient(closest-side, rgba(238,180,142,.36), transparent) 86% 64%/34vw 28vw no-repeat,
+    radial-gradient(closest-side, rgba(208,138,138,.30), transparent) 4% 88%/36vw 30vw no-repeat,
+    radial-gradient(closest-side, rgba(176,176,190,.24), transparent) 76% 102%/42vw 34vw no-repeat;
+  filter:blur(70px) saturate(96%);
+}
+@media (prefers-reduced-motion:no-preference){
+  body::before{animation:glassdrift 90s ease-in-out infinite alternate}
+  @keyframes glassdrift{
+    from{transform:translate3d(0,0,0) scale(1)}
+    to{transform:translate3d(0,-1.6%,0) scale(1.03)}
+  }
+}
+/* 极细颗粒：玻璃表面的微磨砂 */
+body::after{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.10;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.55'/></svg>");
+  mix-blend-mode:multiply;
+}
+.wrap{position:relative;z-index:1}
+
+.card,.placeholder{
+  position:relative;
+  background:var(--card);
+  border:1px solid var(--g-brd);
+  -webkit-backdrop-filter:blur(36px) saturate(126%) brightness(102%);
+  backdrop-filter:blur(36px) saturate(126%) brightness(102%);
+  box-shadow:0 14px 34px rgba(120,66,56,.10), 0 2px 6px rgba(120,66,56,.05),
+             inset 0 1px 0 rgba(255,255,255,.98), inset 0 0 0 1px rgba(255,255,255,.42),
+             inset 0 -18px 34px -26px rgba(255,255,255,.85);
+  border-radius:var(--radius);
+}
+.card::before{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 34%);
+}
+.card > *{position:relative}
+
+.top{
+  background:linear-gradient(180deg, #b1342a 0%, #a32920 100%);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  box-shadow:0 6px 18px rgba(120,35,28,.12);
+}
+.src{background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.26);
+  box-shadow:none}
+
+.nav1{
+  background:rgba(255,255,255,.68);
+  -webkit-backdrop-filter:blur(26px) saturate(140%);
+  backdrop-filter:blur(26px) saturate(140%);
+  border-bottom:1px solid var(--line);
+  box-shadow:none;
+}
+.nav1 a.on{border-bottom-color:var(--brand)}
+.nav2 a{
+  background:#fff;
+  border:1px solid #e6e7ea;
+  box-shadow:0 1px 2px rgba(20,26,33,.04);
+  color:var(--ink2);
+}
+.nav2 a.on{
+  background:var(--brand);
+  border-color:var(--brand);
+  color:#fff;
+  box-shadow:0 2px 6px rgba(176,50,39,.20);
+}
+
+.datebar2{
+  background:#a92c22;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:12px;
+  box-shadow:none;
+}
+
+.trio div,.dual>div{
+  background:rgba(255,255,255,.48);
+  border:1px solid rgba(255,255,255,.68);
+  border-radius:12px;
+  box-shadow:none;
+}
+
+.pill{background:#f4f5f7; color:var(--brand); border:1px solid #eceef1; box-shadow:none}
+.pill.g{background:#eef6f2; color:var(--down); border-color:#dcece4}
+.tag{background:#f4f5f7; color:var(--brand); border:1px solid #eceef1}
+
+th{background:#fafafb}
+th,td{border-bottom:1px solid var(--divider)}
+.rankrow .bar{background:rgba(122,102,98,.10); box-shadow:none}
+.rankrow .bar i{box-shadow:none}
+
+.chart .tip{
+  background:#fff;
+  border:1px solid var(--line);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  box-shadow:0 8px 22px rgba(20,26,33,.10);
+  border-radius:12px;
+}
+
+.notebox{
+  background:#fafafb;
+  border-left:3px solid var(--brand);
+  border-radius:0 12px 12px 0;
+  box-shadow:none;
+}
+
+#toTop{
+  background:var(--brand);
+  border:1px solid rgba(255,255,255,.24);
+  box-shadow:0 8px 20px rgba(176,50,39,.28);
+}
+footer{border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -203,9 +341,9 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">近 60 个交易日成交额</h2>
             <span class="note">亿元 · 均线与当日同口径</span></div>
           <div class="chart" id="chTurn"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>沪深合计</span>
-            <span><i style="background:#8a97a8"></i>5 日均</span>
-            <span><i style="background:#5B9BD5"></i>20 日均</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>沪深合计</span>
+            <span><i style="background:#aab0b7"></i>5 日均</span>
+            <span><i style="background:#aab0b7"></i>20 日均</span></div>
         </div>
       </div>
     </section>
@@ -282,26 +420,26 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IH · 上证50</h2>
             <span class="note">最新基差 -25.16 点（2026-11-05）</span></div>
           <div class="chart" id="basis0"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
-            <span><i style="background:#e0954b"></i>指数</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>基差</span>
+            <span><i style="background:#9aa0a8"></i>指数</span></div>
         </div><div class="card">
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IF · 沪深300</h2>
             <span class="note">最新基差 -15.81 点（2026-11-05）</span></div>
           <div class="chart" id="basis1"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
-            <span><i style="background:#e0954b"></i>指数</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>基差</span>
+            <span><i style="background:#9aa0a8"></i>指数</span></div>
         </div><div class="card">
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IC · 中证500</h2>
             <span class="note">最新基差 -37.33 点（2026-11-05）</span></div>
           <div class="chart" id="basis2"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
-            <span><i style="background:#e0954b"></i>指数</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>基差</span>
+            <span><i style="background:#9aa0a8"></i>指数</span></div>
         </div><div class="card">
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">IM · 中证1000</h2>
             <span class="note">最新基差 -45.14 点（2026-11-05）</span></div>
           <div class="chart" id="basis3"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>基差</span>
-            <span><i style="background:#e0954b"></i>指数</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>基差</span>
+            <span><i style="background:#9aa0a8"></i>指数</span></div>
         </div>
       </div>
       <div class="note" style="font-size:11.5px;color:var(--ink3);margin-top:8px">
@@ -317,42 +455,42 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-si
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">金融 · CI005917</h2>
             <span class="note">动量 5.79% · 偏离 -0.05σ · 2026-11-04</span></div>
           <div class="chart" id="sty0"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
-            <span><i style="background:#8a97a8"></i>均值</span>
-            <span><i style="background:#5B9BD5"></i>±1σ</span>
-            <span><i style="background:#FFC000"></i>±2σ</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>价格动量</span>
+            <span><i style="background:#aab0b7"></i>均值</span>
+            <span><i style="background:#aab0b7"></i>±1σ</span>
+            <span><i style="background:#d3d6da"></i>±2σ</span></div>
         </div><div class="card">
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">周期 · CI005918</h2>
             <span class="note">动量 3.25% · 偏离 -0.52σ · 2026-11-04</span></div>
           <div class="chart" id="sty1"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
-            <span><i style="background:#8a97a8"></i>均值</span>
-            <span><i style="background:#5B9BD5"></i>±1σ</span>
-            <span><i style="background:#FFC000"></i>±2σ</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>价格动量</span>
+            <span><i style="background:#aab0b7"></i>均值</span>
+            <span><i style="background:#aab0b7"></i>±1σ</span>
+            <span><i style="background:#d3d6da"></i>±2σ</span></div>
         </div><div class="card">
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">消费 · CI005919</h2>
             <span class="note">动量 -5.74% · 偏离 -0.48σ · 2026-11-04</span></div>
           <div class="chart" id="sty2"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
-            <span><i style="background:#8a97a8"></i>均值</span>
-            <span><i style="background:#5B9BD5"></i>±1σ</span>
-            <span><i style="background:#FFC000"></i>±2σ</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>价格动量</span>
+            <span><i style="background:#aab0b7"></i>均值</span>
+            <span><i style="background:#aab0b7"></i>±1σ</span>
+            <span><i style="background:#d3d6da"></i>±2σ</span></div>
         </div><div class="card">
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">成长 · CI005920</h2>
             <span class="note">动量 4.92% · 偏离 0.71σ · 2026-11-04</span></div>
           <div class="chart" id="sty3"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
-            <span><i style="background:#8a97a8"></i>均值</span>
-            <span><i style="background:#5B9BD5"></i>±1σ</span>
-            <span><i style="background:#FFC000"></i>±2σ</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>价格动量</span>
+            <span><i style="background:#aab0b7"></i>均值</span>
+            <span><i style="background:#aab0b7"></i>±1σ</span>
+            <span><i style="background:#d3d6da"></i>±2σ</span></div>
         </div><div class="card">
           <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">稳定 · CI005921</h2>
             <span class="note">动量 0.69% · 偏离 -0.71σ · 2026-11-04</span></div>
           <div class="chart" id="sty4"></div>
-          <div class="legend"><span><i style="background:#d43a2b"></i>价格动量</span>
-            <span><i style="background:#8a97a8"></i>均值</span>
-            <span><i style="background:#5B9BD5"></i>±1σ</span>
-            <span><i style="background:#FFC000"></i>±2σ</span></div>
+          <div class="legend"><span><i style="background:#c8352a"></i>价格动量</span>
+            <span><i style="background:#aab0b7"></i>均值</span>
+            <span><i style="background:#aab0b7"></i>±1σ</span>
+            <span><i style="background:#d3d6da"></i>±2σ</span></div>
         </div>
       </div>
     </section>
@@ -732,11 +870,11 @@ function renderAll(){
     <div class="shead" style="margin:0 0 2px"><h2 style="font-size:13px">VIX</h2><span class="note">${v.date} 收盘 · 周频近3年</span></div>
     <div class="kv"><span class="big ${cls(v.pct)}">${pct(v.pct)}</span><span class="sub">${v.close.toFixed(2)}</span></div>
     <div class="chart" id="chVix"></div>
-    <div class="legend"><span><i style="background:#d43a2b"></i>VIX</span><span><i style="background:#e0954b"></i>标普500</span></div>`;
+    <div class="legend"><span><i style="background:#c8352a"></i>VIX</span><span><i style="background:#9aa0a8"></i>标普500</span></div>`;
   drawChart(document.getElementById('chVix'), {
     series: [
-      {name:'VIX', color:'#d43a2b', data:D.hist.vix, vfmt:x=>x.toFixed(2)},
-      {name:'标普500', color:'#e0954b', data:D.hist.spx, vfmt:x=>x.toFixed(0)}
+      {name:'VIX', color:'#c8352a', data:D.hist.vix, vfmt:x=>x.toFixed(2)},
+      {name:'标普500', color:'#9aa0a8', data:D.hist.spx, vfmt:x=>x.toFixed(0)}
     ], fmt:x=>x.toFixed(0)
   });
   document.getElementById('asiaIdx').innerHTML = D.asia.index.map(idxCard).join('');
@@ -763,10 +901,10 @@ function renderAll(){
   document.getElementById('cuDual').innerHTML = `
     <div><div class="dl">LME 铜（3M）· ${lmI.date}${lmI.note ? ' · ' + lmI.note : ''}</div><div class="dv ${cls(lmI.pct)}">${pct(lmI.pct)}</div><div class="dp">${px(lmI.close,lmI.unit)}</div></div>
     <div><div class="dl">COMEX 铜</div><div class="dv ${cls(hgI.pct)}">${pct(hgI.pct)}</div><div class="dp">${px(hgI.close,hgI.unit)}</div></div>`;
-  drawChart(document.getElementById('chBrent'), {series:[{name:'布伦特', color:'#d43a2b', data:D.hist.brent, vfmt:x=>x.toFixed(2)+' 美元'}], fmt:x=>x.toFixed(0)});
-  drawChart(document.getElementById('chWti'), {series:[{name:'WTI', color:'#d43a2b', data:D.hist.wti, vfmt:x=>x.toFixed(2)+' 美元'}], fmt:x=>x.toFixed(0)});
-  drawChart(document.getElementById('chGc'), {series:[{name:'COMEX 金', color:'#d43a2b', data:D.hist.gc, vfmt:x=>x.toFixed(0)+' 美元'}], fmt:x=>x.toFixed(0)});
-  drawChart(document.getElementById('chLme'), {series:[{name:'LME铜', color:'#d43a2b', data:D.hist.lme, vfmt:x=>x.toFixed(0)+' 美元'}], fmt:x=>x.toFixed(0)});
+  drawChart(document.getElementById('chBrent'), {series:[{name:'布伦特', color:'#c8352a', data:D.hist.brent, vfmt:x=>x.toFixed(2)+' 美元'}], fmt:x=>x.toFixed(0)});
+  drawChart(document.getElementById('chWti'), {series:[{name:'WTI', color:'#c8352a', data:D.hist.wti, vfmt:x=>x.toFixed(2)+' 美元'}], fmt:x=>x.toFixed(0)});
+  drawChart(document.getElementById('chGc'), {series:[{name:'COMEX 金', color:'#c8352a', data:D.hist.gc, vfmt:x=>x.toFixed(0)+' 美元'}], fmt:x=>x.toFixed(0)});
+  drawChart(document.getElementById('chLme'), {series:[{name:'LME铜', color:'#c8352a', data:D.hist.lme, vfmt:x=>x.toFixed(0)+' 美元'}], fmt:x=>x.toFixed(0)});
 
   // 风格动量图
   D.styles.forEach((s,i)=>{
@@ -774,12 +912,12 @@ function renderAll(){
     drawChart(document.getElementById('sty'+i), {
       shared: true,
       series: [
-        {name:'动量', color:'#d43a2b', data:s.mom, vfmt:F},
-        {name:'均值', color:'#8a97a8', dash:'4 3', width:1.1, data:s.mean, vfmt:F},
-        {name:'+1σ', color:'#5B9BD5', dash:'2 3', width:1, data:s.p1, vfmt:F},
-        {name:'-1σ', color:'#5B9BD5', dash:'2 3', width:1, data:s.m1, vfmt:F},
-        {name:'+2σ', color:'#FFC000', dash:'2 3', width:1, data:s.p2, vfmt:F},
-        {name:'-2σ', color:'#FFC000', dash:'2 3', width:1, data:s.m2, vfmt:F}
+        {name:'动量', color:'#c8352a', data:s.mom, vfmt:F},
+        {name:'均值', color:'#aab0b7', dash:'4 3', width:1.1, data:s.mean, vfmt:F},
+        {name:'+1σ', color:'#aab0b7', dash:'2 3', width:1, data:s.p1, vfmt:F},
+        {name:'-1σ', color:'#aab0b7', dash:'2 3', width:1, data:s.m1, vfmt:F},
+        {name:'+2σ', color:'#d3d6da', dash:'2 3', width:1, data:s.p2, vfmt:F},
+        {name:'-2σ', color:'#d3d6da', dash:'2 3', width:1, data:s.m2, vfmt:F}
       ],
       fmt: v => (v*100).toFixed(1)+'%'
     });
@@ -792,8 +930,8 @@ function renderAll(){
     const data2 = b.series.map(p=>({d:p.d, v:p.s}));
     drawChart(box, {
       series:[
-        {name:'基差', color:'#d43a2b', data:data1, vfmt:v=>v.toFixed(2)+' 点'},
-        {name:'指数', color:'#e0954b', data:data2, vfmt:v=>v.toFixed(0)}
+        {name:'基差', color:'#c8352a', data:data1, vfmt:v=>v.toFixed(2)+' 点'},
+        {name:'指数', color:'#9aa0a8', data:data2, vfmt:v=>v.toFixed(0)}
       ],
       fmt:v=>v.toFixed(0)
     });
@@ -804,9 +942,9 @@ function renderAll(){
     drawChart(document.getElementById('chTurn'), {
       shared: true,
       series: [
-        {name:'沪深合计', color:'#d43a2b', data:tn.series, vfmt:v=>v.toFixed(0)+' 亿'},
-        {name:'5 日均', color:'#8a97a8', width:1.2, dash:'4 3', data:tn.ma5, vfmt:v=>v.toFixed(0)+' 亿'},
-        {name:'20 日均', color:'#5B9BD5', width:1.2, dash:'4 3', data:tn.ma20, vfmt:v=>v.toFixed(0)+' 亿'}
+        {name:'沪深合计', color:'#c8352a', data:tn.series, vfmt:v=>v.toFixed(0)+' 亿'},
+        {name:'5 日均', color:'#aab0b7', width:1.2, dash:'4 3', data:tn.ma5, vfmt:v=>v.toFixed(0)+' 亿'},
+        {name:'20 日均', color:'#aab0b7', width:1.2, dash:'4 3', data:tn.ma20, vfmt:v=>v.toFixed(0)+' 亿'}
       ],
       fmt:v=>v.toFixed(0),
       xfmt:d=>(d||'').slice(5).replace('-','/')
